@@ -174,6 +174,10 @@ if generateISO_button:
     config_file_path = os.path.join(build_path, "appliance-config.yaml")
     with open(config_file_path, "w") as config_file:
         config_file.write(st.session_state["configText"])
+    # Save it to the place where the actual appliance build will use it
+    config_assets_file_path = os.path.join(build_assets_path, "appliance-config.yaml")
+    with open(config_assets_file_path, "w") as config_file:
+        config_file.write(st.session_state["configText"])
 
     response.append(f"<strong>Configuration saved to:</strong> {config_file_path}<br /><hr />")
 
