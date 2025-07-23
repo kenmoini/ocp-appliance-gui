@@ -33,12 +33,14 @@ podman run --rm -it -p 8501:8501 \
 podman run --rm -it -p 8501:8501 \
  -v ./gui-data:/data \
  -e GUI_MODE=agent \
+ --net=host \
  --privileged -v /run/podman/podman.sock:/run/podman/podman.sock \
  ocp-appliance-gui
 
-# Upstream GUI
+# Upstream Appliance GUI
 podman run --rm -it -p 8501:8501 \
  -v ./gui-data:/data \
+ --net=host \
  --privileged -v /run/podman/podman.sock:/run/podman/podman.sock \
  quay.io/kenmoini/ocp-appliance-gui:latest
 ```

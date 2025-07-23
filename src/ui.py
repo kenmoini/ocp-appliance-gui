@@ -4,7 +4,7 @@ import os, time, subprocess
 #import boto3
 #from botocore.exceptions import ClientError
 
-
+# Setup Jinja2 environment for templating
 environment = Environment(loader=FileSystemLoader("templates/"))
 applianceConfigTemplate = environment.get_template("appliance-config.yaml.j2")
 
@@ -42,6 +42,12 @@ availableOperators = {
 if "configText" not in st.session_state:
     st.session_state["configText"] = "To be generated..."
 
+# Load CSS
+with open('./static/custom.css') as f:
+    css = f.read()
+st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
+
+# Page configuration
 st.title("OpenShift Appliance Installer")
 st.header("Configuration Generator")
 
@@ -171,12 +177,44 @@ if generateISO_button:
 
     response.append(f"<strong>Configuration saved to:</strong> {config_file_path}<br /><hr />")
 
+    progress_bar = st.progress(0, text="Progress...")
+
+    with st.expander("Initialization Output"):
+        with st.container(key="init_output"):
+            st.html("".join(response))
+
+    progress_bar.progress(10, text="Pulling Appliance Image...")
+
     # Pull the appliance image
-    response.append(f"<strong>Pulling Appliance Image:</strong><br /><pre>")
+    build_output = st.empty()
+    build_response = []
+    build_response.append(f"<strong>Pulling Appliance Image:</strong><br /><pre>")
 
     appliancePull_cmd = subprocess.Popen(["podman", "pull", os.environ.get('APPLIANCE_IMAGE')], env=process_env, stdout=subprocess.PIPE)
     while appliancePull_cmd.poll() is None:
         line = appliancePull_cmd.stdout.readline().decode()
-        response.append(line)
+        build_response.append(line)
 
-    container_output.html("".join(response))
+    with st.expander("Podman Image Pull Output"):
+        with st.container(key="init_output"):
+            build_output.html("".join(build_response))
+    progress_bar.progress(20, text="Building Appliance Image...")
+
+    podmanApplianceImageBuild_cmd = [
+        "podman",
+        "run",
+        "--rm",
+        "-it",
+        "--privileged",
+        "--net=host",
+        "-v",
+        "/etc/pki:/etc/pki:ro",
+        "--env-host",
+        "-v",
+        f"{build_assets_path}:/assets:Z",
+        f"{os.environ.get('APPLIANCE_IMAGE')}",
+        "build",
+        "--log-level",
+        "debug",
+    ]
+    applianceBuild_cmd = subprocess.Popen(podmanApplianceImageBuild_cmd, env=process_env, stdout=subprocess.PIPE)

@@ -1,0 +1,12 @@
+[client]
+showErrorDetails = "none"
+toolbarMode = "auto"
+
+[server]
+port = 8501
+showEmailPrompt = false
+enableStaticServing = true
+
+[browser]
+gatherUsageStats = false
+serverPort = 8501
