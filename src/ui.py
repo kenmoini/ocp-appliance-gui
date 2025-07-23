@@ -186,18 +186,18 @@ if generateISO_button:
     progress_bar.progress(10, text="Pulling Appliance Image...")
 
     # Pull the appliance image
-    build_output = st.empty()
-    build_response = []
-    build_response.append(f"<strong>Pulling Appliance Image:</strong><br /><pre>")
+    pull_output = st.empty()
+    pull_response = []
+    pull_response.append(f"<strong>Pulling Appliance Image:</strong><br /><pre>")
 
     appliancePull_cmd = subprocess.Popen(["podman", "pull", os.environ.get('APPLIANCE_IMAGE')], env=process_env, stdout=subprocess.PIPE)
     while appliancePull_cmd.poll() is None:
         line = appliancePull_cmd.stdout.readline().decode()
-        build_response.append(line)
+        pull_response.append(line)
 
     with st.expander("Podman Image Pull Output"):
         with st.container(key="pull_output"):
-            build_output.html("".join(build_response))
+            pull_output.html("".join(pull_response))
     progress_bar.progress(20, text="Building Appliance Image...")
 
     podmanApplianceImageBuild_cmd = [
@@ -217,4 +217,15 @@ if generateISO_button:
         "--log-level",
         "debug",
     ]
+
+    build_output = st.empty()
+    build_response = []
+    build_response.append(f"<strong>Building Appliance Image:</strong><br /><pre>")
     applianceBuild_cmd = subprocess.Popen(podmanApplianceImageBuild_cmd, env=process_env, stdout=subprocess.PIPE)
+    while applianceBuild_cmd.poll() is None:
+        line = applianceBuild_cmd.stdout.readline().decode()
+        build_response.append(line)
+
+    with st.expander("Image Build Output"):
+        with st.container(key="build_output"):
+            build_output.html("".join(build_response))
