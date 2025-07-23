@@ -1,0 +1,4 @@
+streamlit
+jinja2
+#boto3
+#botocore
