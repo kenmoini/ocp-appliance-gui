@@ -8,7 +8,9 @@ USER root
 COPY setup/ /opt/app-root/setup/
 
 RUN dnf update -y \
- && dnf install -y podman \
+ && dnf install -y podman fuse-overlayfs --exclude container-selinux \
+ && dnf clean all \
+ && rm -rf /var/cache /var/log/dnf* /var/log/yum.* \
  && DEST_MODE="system" /opt/app-root/setup/download-ocp-binaries.sh
 
 RUN echo default:10000:5000 > /etc/subuid; \
@@ -29,5 +31,12 @@ RUN chown -R default:root /opt/app-root/src/gui
 # Final container composition
 USER default
 EXPOSE 8501
+
+# Rootful container store
+VOLUME /var/lib/containers
+# Rootless container store
+VOLUME /home/default/.local/share/containers
+# Asset directory
+VOLUME /data
 
 ENTRYPOINT ["/opt/app-root/src/gui/entrypoint.sh"]
