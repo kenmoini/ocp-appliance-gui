@@ -16,39 +16,16 @@ createPinnedImageSets = False
 enableInteractiveFlow = False
 useDefaultSourceNames = False
 
-availableOperators = {
-    "advanced-cluster-management": {"catalog": "redhat", "id": "advanced-cluster-management", "displayName": "ACM"},
-    "ansible-automation-platform-operator": {"catalog": "redhat", "id": "ansible-automation-platform-operator", "displayName": "AAP2"},
-    "cincinnati-operator": {"catalog": "redhat", "id": "cincinnati-operator", "displayName": "Update Service"},
-    "devspaces": {"catalog": "redhat", "id": "devspaces", "displayName": "DevSpace"},
-    "devworkspace-operator": {"catalog": "redhat", "id": "devworkspace-operator", "displayName": "DevWorkspace"},
-    "rhods-operator": {"catalog": "redhat", "id": "rhods-operator", "displayName": "OpenShift AI"},
-    "local-storage-operator": {"catalog": "redhat", "id": "local-storage-operator", "displayName": "LSO"},
-    "lvms-operator": {"catalog": "redhat", "id": "lvms-operator", "displayName": "LVMO"},
-    "metallb-operator": {"catalog": "redhat", "id": "metallb-operator", "displayName": "MetalLB"},
-    "mtv-operator": {"catalog": "redhat", "id": "mtv-operator", "displayName": "Migration Toolkit for Virtualization"},
-    "multicluster-engine": {"catalog": "redhat", "id": "multicluster-engine", "displayName": "MCE"},
-    "ocs-client-operator": {"catalog": "redhat", "id": "ocs-client-operator", "displayName": "OCS Client"},
-    "odf-operator": {"catalog": "redhat", "id": "odf-operator", "displayName": "ODF"},
-    "openshift-gitops-operator": {"catalog": "redhat", "id": "openshift-gitops-operator", "displayName": "GitOps"},
-    "openshift-pipelines-operator-rh": {"catalog": "redhat", "id": "openshift-pipelines-operator-rh", "displayName": "Pipelines"},
-    "redhat-oadp-operator": {"catalog": "redhat", "id": "redhat-oadp-operator", "displayName": "OADP"},
-    "rhacs-operator": {"catalog": "redhat", "id": "rhacs-operator", "displayName": "ACS"},
-    "kubevirt-hyperconverged": {"catalog": "redhat", "id": "kubevirt-hyperconverged", "displayName": "OpenShift Virtualization"},
-    "nfd": {"catalog": "redhat", "id": "nfd", "displayName": "NFD"},
-    "fence-agents-remediation": {"catalog": "redhat", "id": "fence-agents-remediation", "displayName": "FAR"},
-    "node-maintenance-operator": {"catalog": "redhat", "id": "node-maintenance-operator", "displayName": "NMO"},
-}
 
 if "configText" not in st.session_state:
     st.session_state["configText"] = "To be generated..."
 
-st.title("OpenShift Appliance Installer")
+st.title("OpenShift Agent Installer")
 st.header("Configuration Generator")
 
 with st.sidebar:
     st.markdown("## Helpful Links")
-    st.markdown("[Update Graph](https://access.redhat.com/labs/ocpupgradegraph/update_path/)")
+    st.markdown("[Downloads](https://console.redhat.com/openshift/downloads/)")
     
 col1, col2 =st.columns(2)
 
@@ -119,3 +96,16 @@ generateISO_button = st.button(label="Generate Image", type="primary")
 if generateISO_button:
     if buildName == "":
         buildName = f"{ocpVersion}-{ocpArchitecture}-{int(os.time())}"
+    process_env = os.environ.copy()
+    x = subprocess.Popen(["podman", "version"], env=process_env, stdout=subprocess.PIPE)
+
+
+    container_output = st.empty()
+    response = []
+    num_lines=0
+    while x.poll() is None:
+        line = x.stdout.readline().decode()
+        num_lines += 1
+        response.append(line)
+
+    container_output.write("".join(response))

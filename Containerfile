@@ -1,21 +1,33 @@
 FROM registry.access.redhat.com/ubi9/python-311:1-66
 WORKDIR /opt/app-root/src/gui
 
+##################################################################################
+# Setup the container environment
 USER root
 
-COPY requirements.txt /opt/app-root/src/gui/
+COPY setup/ /opt/app-root/setup/
 
 RUN dnf update -y \
- && chown -R default:root /opt/app-root/src/gui
+ && dnf install -y podman \
+ && DEST_MODE="system" /opt/app-root/setup/download-ocp-binaries.sh
 
+RUN echo default:10000:5000 > /etc/subuid; \
+ echo default:10000:5000 > /etc/subgid;
+
+##################################################################################
+# Install application dependencies
 USER default
-RUN pip install -r requirements.txt
+RUN pip install -r /opt/app-root/setup/requirements.txt
 
+##################################################################################
+# Copy over application files and set permissions
+USER root
+COPY src/ /opt/app-root/src/gui/
+RUN chown -R default:root /opt/app-root/src/gui
 
-#USER root
-#RUN chmod a+x /opt/app-root/src/gui/run.sh
-#USER default
-
+##################################################################################
+# Final container composition
+USER default
 EXPOSE 8501
 
-ENTRYPOINT ["sh", "-c", "streamlit run /opt/app-root/src/gui/ui.py"]
+ENTRYPOINT ["/opt/app-root/src/gui/entrypoint.sh"]
