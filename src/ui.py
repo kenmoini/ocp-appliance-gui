@@ -196,7 +196,7 @@ if generateISO_button:
         build_response.append(line)
 
     with st.expander("Podman Image Pull Output"):
-        with st.container(key="init_output"):
+        with st.container(key="pull_output"):
             build_output.html("".join(build_response))
     progress_bar.progress(20, text="Building Appliance Image...")
 

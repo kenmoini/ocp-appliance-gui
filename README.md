@@ -22,6 +22,7 @@ podman tag ocp-app-gui quay.io/kenmoini/ocp-appliance-gui:latest
 podman push quay.io/kenmoini/ocp-appliance-gui:latest
 
 mkdir ./gui-data
+chmod 777 ./gui-data
 
 # Appliance GUI
 podman run --rm -it -p 8501:8501 \
