@@ -39,6 +39,6 @@ podman run --rm -it -p 8501:8501 \
 # Upstream GUI
 podman run --rm -it -p 8501:8501 \
  -v ./gui-data:/data \
- --privileged -v /run/podman/podman.sock:/var/run/docker.sock \
+ --privileged -v /run/podman/podman.sock:/run/podman/podman.sock \
  quay.io/kenmoini/ocp-appliance-gui:latest
 ```
