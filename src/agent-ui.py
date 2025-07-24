@@ -69,6 +69,7 @@ with col2:
 pullSecret = st.text_input(label="OpenShift Pull Secret", type="password")
 publicKey = st.text_input(label="SSH Public Key")
 
+with st.expander("General Cluster Configuration"):
 
 with st.expander("General Network Configuration"):
     dnsServers = st.multiselect(
@@ -77,11 +78,22 @@ with st.expander("General Network Configuration"):
         max_selections=3,
         accept_new_options=True,
     )
-    dnsServers = st.multiselect(
+    dnsSearchDomains = st.multiselect(
         "DNS Search Domains",
         [],
         max_selections=3,
         accept_new_options=True,
+    )
+    ntpServers = st.multiselect(
+        "NTP Servers",
+        [],
+        max_selections=3,
+        accept_new_options=True,
+    )
+    clusterNetwork = st.text_input(
+        label="Cluster Network",
+        default="10.128.0.0/14",
+        help="Overall CIDR space for the Pods in the cluster"
     )
 
 submit_button = st.button(label="Generate Configuration")
