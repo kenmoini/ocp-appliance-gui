@@ -46,6 +46,8 @@ EXPOSE 8501
 VOLUME /var/lib/containers
 # Rootless container store
 VOLUME /opt/app-root/src/.local/share/containers
+# Podman run root?!??
+VOLUME /tmp/storage-run-1001/containers
 # Asset directory
 VOLUME /data
 
