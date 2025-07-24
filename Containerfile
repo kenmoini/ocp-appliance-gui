@@ -27,13 +27,13 @@ USER root
 ADD https://raw.githubusercontent.com/containers/image_build/refs/heads/main/podman/containers.conf /etc/containers/containers.conf
 ADD https://raw.githubusercontent.com/containers/image_build/refs/heads/main/podman/podman-containers.conf /opt/app-root/src/.config/containers/containers.conf
 COPY src/ /opt/app-root/src/gui/
-RUN chown -R default:root /opt/app-root/src/ /opt/app-root/src/.config /opt/app-root/src/.local
+RUN mkdir -p /opt/app-root/src/{.config,local} \
+ && chown -R default:root /opt/app-root/src/ /opt/app-root/src/.config /opt/app-root/src/.local
 
 ##################################################################################
 # Final container composition
 USER default
 EXPOSE 8501
-
 
 # Rootful container store
 VOLUME /var/lib/containers
