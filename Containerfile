@@ -5,6 +5,15 @@ WORKDIR /opt/app-root/src/gui
 # Setup the container environment
 USER root
 
+# Rootful container store
+VOLUME /var/lib/containers
+# Rootless container store
+VOLUME /opt/app-root/src/.local/share/containers
+# Podman run root?!??
+VOLUME /tmp/storage-run-1001/containers
+# Asset directory
+VOLUME /data
+
 COPY setup/ /opt/app-root/setup/
 
 RUN dnf update -y \
@@ -29,7 +38,7 @@ ADD https://raw.githubusercontent.com/containers/image_build/refs/heads/main/pod
 ADD https://raw.githubusercontent.com/containers/image_build/refs/heads/main/podman/podman-containers.conf /opt/app-root/src/.config/containers/containers.conf
 COPY src/ /opt/app-root/src/gui/
 RUN mkdir -p /opt/app-root/src/{.config,.local} \
- && chown default:root -R /opt/app-root/src/ /opt/app-root/src/.config /opt/app-root/src/.local \
+ && chown default:root -R /opt/app-root/src/ /opt/app-root/src/.config /opt/app-root/src/.local /tmp/storage-run-1001/containers \
 
  # chmod containers.conf and adjust storage.conf to enable Fuse storage.
 RUN chmod 644 /etc/containers/containers.conf; sed -i -e 's|^#mount_program|mount_program|g' -e '/additionalimage.*/a "/var/lib/shared",' -e 's|^mountopt[[:space:]]*=.*$|mountopt = "nodev,fsync=0"|g' /etc/containers/storage.conf
@@ -41,14 +50,5 @@ ENV _CONTAINERS_USERNS_CONFIGURED=""
 # Final container composition
 USER default
 EXPOSE 8501
-
-# Rootful container store
-VOLUME /var/lib/containers
-# Rootless container store
-VOLUME /opt/app-root/src/.local/share/containers
-# Podman run root?!??
-VOLUME /tmp/storage-run-1001/containers
-# Asset directory
-VOLUME /data
 
 ENTRYPOINT ["/opt/app-root/src/gui/entrypoint.sh"]
