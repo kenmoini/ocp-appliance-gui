@@ -21,18 +21,20 @@ podman tag ocp-app-gui quay.io/kenmoini/ocp-appliance-gui:latest
 
 podman push quay.io/kenmoini/ocp-appliance-gui:latest
 
-mkdir -p ./gui-data/
+mkdir -p ./gui-data/{data,graph}
 chmod 777 ./gui-data
 
 # Appliance GUI
 podman run --name ocp-gui --rm -it -p 8501:8501 \
- -v ./gui-data:/data \
+ -v ./gui-data/data:/data \
+ -v ./gui-data/graph:/var/lib/containers \
  --privileged -v /run/podman/podman.sock:/run/podman/podman.sock \
  ocp-appliance-gui
 
 # Agent GUI
 podman run --name ocp-gui --rm -it -p 8501:8501 \
- -v ./gui-data:/data \
+ -v ./gui-data/data:/data \
+ -v ./gui-data/graph:/var/lib/containers \
  -e GUI_MODE=agent \
  --net=host \
  --privileged -v /run/podman/podman.sock:/run/podman/podman.sock \
@@ -40,7 +42,8 @@ podman run --name ocp-gui --rm -it -p 8501:8501 \
 
 # Upstream Appliance GUI
 podman run --name ocp-gui --rm -it -p 8501:8501 \
- -v ./gui-data:/data \
+ -v ./gui-data/data:/data \
+ -v ./gui-data/graph:/var/lib/containers \
  --net=host \
  --privileged -v /run/podman/podman.sock:/run/podman/podman.sock \
  quay.io/kenmoini/ocp-appliance-gui:latest
@@ -48,7 +51,8 @@ podman run --name ocp-gui --rm -it -p 8501:8501 \
 # Combo Wombo
 podman build -t ocp-appliance-gui . \
  && podman run --name ocp-gui --rm -it -p 8501:8501 \
- -v ./gui-data:/data \
+ -v ./gui-data/data:/data \
+ -v ./gui-data/graph:/var/lib/containers \
  --privileged -v /run/podman/podman.sock:/run/podman/podman.sock \
  ocp-appliance-gui
 ```
