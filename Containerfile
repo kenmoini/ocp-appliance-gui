@@ -1,3 +1,5 @@
+##################################################################################
+# Must be built on an entitled RHEL system
 FROM registry.access.redhat.com/ubi9/python-311:1-66
 WORKDIR /opt/app-root/src/gui
 

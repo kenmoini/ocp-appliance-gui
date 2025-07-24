@@ -1,0 +1,37 @@
+##################################################################################
+# Must be built on an entitled RHEL system
+FROM registry.access.redhat.com/ubi9/python-311:1-66
+WORKDIR /opt/app-root/src/gui
+
+##################################################################################
+# Setup the container environment
+USER root
+
+# Asset directory
+VOLUME /data
+
+COPY setup/ /opt/app-root/setup/
+
+RUN dnf update -y \
+ && dnf install -y python3 python3-pip nmstate \
+ && dnf clean all \
+ && rm -rf /var/cache /var/log/dnf* /var/log/yum.* \
+ && DEST_MODE="system" /opt/app-root/setup/download-ocp-binaries.sh
+
+##################################################################################
+# Install application dependencies
+USER default
+RUN pip install -r /opt/app-root/setup/requirements.txt
+
+##################################################################################
+# Copy over application files and set permissions
+USER root
+COPY src/ /opt/app-root/src/gui/
+RUN chown default:root -R /opt/app-root/src/
+
+##################################################################################
+# Final container composition
+#USER default
+EXPOSE 8501
+
+ENTRYPOINT ["/opt/app-root/src/gui/entrypoint.sh"]
