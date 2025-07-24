@@ -191,7 +191,7 @@ if generateISO_button:
 
     # Pull the appliance image
     pull_output = st.empty()
-    pull_response = []
+    pull_response = [""]
 
     appliancePull_cmd = subprocess.Popen(["podman", "pull", os.environ.get('APPLIANCE_IMAGE')], env=process_env, stdout=subprocess.PIPE)
     while appliancePull_cmd.poll() is None:
@@ -222,7 +222,7 @@ if generateISO_button:
     ]
 
     build_output = st.empty()
-    build_response = []
+    build_response = [""]
 
     applianceBuild_cmd = subprocess.Popen(podmanApplianceImageBuild_cmd, env=process_env, stdout=subprocess.PIPE)
     while applianceBuild_cmd.poll() is None:

@@ -1,5 +1,5 @@
 [client]
-showErrorDetails = "none"
+#showErrorDetails = "none"
 toolbarMode = "auto"
 
 [server]
