@@ -190,7 +190,7 @@ if generateISO_button:
     progress_bar.progress(10, text="Pulling Appliance Image...")
 
     # Pull the appliance image
-    pull_output = st.empty()
+    pull_output = st.container()
     pull_response = ["<div />"]
 
     appliancePull_cmd = subprocess.Popen(["podman", "pull", os.environ.get('APPLIANCE_IMAGE')], env=process_env, stdout=subprocess.PIPE)
