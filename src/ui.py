@@ -130,17 +130,17 @@ if generateISO_button:
     # Create the build directory if it doesn't exist
     build_dir = os.environ.get("BUILD_BASE_PATH", "/data/builds")
     if not os.path.exists(build_dir):
-        os.makedirs(build_dir)
+        os.makedirs(build_dir, mode=0o777)
 
     # Set the build path and create it if it doesn't exist
     build_path = os.path.join(build_dir, buildName)
     if not os.path.exists(build_path):
-        os.makedirs(build_path)
+        os.makedirs(build_path, mode=0o777)
 
     # Make a subdirectory for the build assets
     build_assets_path = os.path.join(build_path, "assets")
     if not os.path.exists(build_assets_path):
-        os.makedirs(build_assets_path)
+        os.makedirs(build_assets_path, mode=0o777)
 
     progress_bar = st.progress(0, text="Initializing...")
 
