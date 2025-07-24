@@ -257,3 +257,5 @@ if generateISO_button:
     with st.expander("4. Appliance Image Build Output"):
         with st.container(key="build_output"):
             st.html("".join(build_response))
+
+    progress_bar.progress(75, text="Building Appliance ISO...")

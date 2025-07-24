@@ -25,6 +25,19 @@ if 'current_step' not in st.session_state:
 if 'current_view' not in st.session_state:
     st.session_state['current_view'] = 'Grid'
 
+### maintains the user's location within the wizard
+def set_form_step(action,step=None):
+    if action == 'Next':
+        st.session_state['current_step'] = st.session_state['current_step'] + 1
+    if action == 'Back':
+        st.session_state['current_step'] = st.session_state['current_step'] - 1
+    if action == 'Jump':
+        st.session_state['current_step'] = step
+
+### used to toggle back and forth between Grid View and Form View
+def set_page_view(target_view):
+    st.session_state['current_view'] = target_view
+
 # Load CSS
 with open('./static/custom.css') as f:
     css = f.read()
