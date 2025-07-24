@@ -39,8 +39,9 @@ ADD https://raw.githubusercontent.com/containers/image_build/refs/heads/main/pod
 COPY src/ /opt/app-root/src/gui/
 RUN mkdir -p /opt/app-root/src/{.config,.local} \
  && chown default:root -R /opt/app-root/src/ /opt/app-root/src/.config /opt/app-root/src/.local /tmp/storage-run-1001/containers \
+ && chmod 755 /tmp/storage-run-1001/containers
 
- # chmod containers.conf and adjust storage.conf to enable Fuse storage.
+# chmod containers.conf and adjust storage.conf to enable Fuse storage.
 RUN chmod 644 /etc/containers/containers.conf; sed -i -e 's|^#mount_program|mount_program|g' -e '/additionalimage.*/a "/var/lib/shared",' -e 's|^mountopt[[:space:]]*=.*$|mountopt = "nodev,fsync=0"|g' /etc/containers/storage.conf
 RUN mkdir -p /var/lib/shared/overlay-images /var/lib/shared/overlay-layers /var/lib/shared/vfs-images /var/lib/shared/vfs-layers; touch /var/lib/shared/overlay-images/images.lock; touch /var/lib/shared/overlay-layers/layers.lock; touch /var/lib/shared/vfs-images/images.lock; touch /var/lib/shared/vfs-layers/layers.lock
 
