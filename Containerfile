@@ -49,7 +49,7 @@ ENV _CONTAINERS_USERNS_CONFIGURED=""
 
 ##################################################################################
 # Final container composition
-USER default
+#USER default
 EXPOSE 8501
 
 ENTRYPOINT ["/opt/app-root/src/gui/entrypoint.sh"]
