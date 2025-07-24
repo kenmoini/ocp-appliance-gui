@@ -27,7 +27,7 @@ hosts:
     networkConfig:
       interfaces:
 {% for interface in node.networkConfig.interfaces %}
-        - {{ interface | to_nice_yaml | indent(10) }}
+        - {{ interface | indent(10) }}
 {% endfor %}
       dns-resolver:
         config:
@@ -47,7 +47,7 @@ hosts:
       routes:
         config:
 {% for route in node.networkConfig.routes.config %}
-        - {{ route | to_nice_yaml | indent(10) }}
+        - {{ route | indent(10) }}
 {% endfor %}
 {% endif %}
 {% endfor %}
