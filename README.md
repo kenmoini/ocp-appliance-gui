@@ -1,18 +1,39 @@
 # OpenShift Appliance Installation GUI
 
-## Development
+## Development/Running
 
 ```bash
+# Run on an entitled RHEL system
+dnf install git podman python3 python3-pip wget -y
+
+git clone https://github.com/kenmoini/ocp-appliance-gui.git
+cd ocp-appliance-gui
+
+# One-time: Install OCP binaries
+cd setup
+./download-ocp-binaries.sh
+cd bin
+mv * /usr/local/bin
+cd ../..
+
+# Setup Python
 python3 -m venv venv
 source venv/bin/activate
 python3 -m pip install -r requirements.txt
 
+# Run the Appliance UI
 streamlit run ui.py
 
+# Run the Agent UI
+streamlit run agent-ui.py
+
+# Terminate the venv
 deactivate
 ```
 
 ## Container Stuffs
+
+> So evidently Podman-in-Podman-in-Podman is tough?  Appliance GUI doesn't work
 
 ```bash
 podman build -t ocp-appliance-gui .
