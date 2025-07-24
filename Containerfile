@@ -28,7 +28,8 @@ ADD https://raw.githubusercontent.com/containers/image_build/refs/heads/main/pod
 ADD https://raw.githubusercontent.com/containers/image_build/refs/heads/main/podman/podman-containers.conf /opt/app-root/src/.config/containers/containers.conf
 COPY src/ /opt/app-root/src/gui/
 RUN mkdir -p /opt/app-root/src/{.config,.local} \
- && chown -R default:root /opt/app-root/src/ /opt/app-root/src/.config /opt/app-root/src/.local
+ && chown -R default:root /opt/app-root/src/ /opt/app-root/src/.config /opt/app-root/src/.local \
+ && chmod 755 /etc/containers/containers.conf
 
 ##################################################################################
 # Final container composition
