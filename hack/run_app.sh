@@ -10,6 +10,12 @@ if ! command -v python3 &> /dev/null; then
     exit 1
 fi
 
+# Check for openshift-install and ensure it's available
+if ! command -v openshift-install &> /dev/null; then
+    echo "OpenShift Install could not be found. Please install OpenShift Install to use this script."
+    exit 1
+fi
+
 # Check for the data path
 if [ ! -d "./gui-data" ]; then
     echo "Creating gui-data directory..."
@@ -23,6 +29,7 @@ python3 -m pip install -r ./setup/requirements.txt
 
 export GUI_MODE=${1:-"appliance"} # appliance, agent
 export BUILD_BASE_PATH=${BUILD_BASE_PATH:-"${PROJECT_ROOT}/gui-data/data"}
+export APPLIANCE_IMAGE=${APPLIANCE_IMAGE:-"quay.io/edge-infrastructure/openshift-appliance@sha256:2a1187cdde61679e87e770c92efff997d02abc6d95bd1a61d6636d5859e83e27"}
 
 cd ${PROJECT_ROOT}/src || exit 1
 
