@@ -142,8 +142,10 @@ if generateISO_button:
     if not os.path.exists(build_assets_path):
         os.makedirs(build_assets_path)
 
+    progress_bar = st.progress(0, text="Initializing...")
+
     # Create a container output area
-    container_output = st.empty()
+    #container_output = st.empty()
     response = ["<div />"]
 
     # Provide some basic feedback
@@ -181,13 +183,23 @@ if generateISO_button:
 
     response.append(f"<strong>Configuration saved to:</strong> {config_file_path}<br /><hr />")
 
-    progress_bar = st.progress(0, text="Progress...")
-
     with st.expander("Initialization Output"):
         with st.container(key="init_output"):
             st.html("".join(response))
 
-    progress_bar.progress(10, text="Pulling Appliance Image...")
+    progress_bar.progress(20, text="Testing Podman in Podman...")
+    podinpod_response = ["<div />"]
+
+    podinpod_cmd = subprocess.Popen(["podman", "run", "--privileged", "quay.io/podman/stable", "podman", "run", "ubi8", "echo", "HelloFromPodmanInPodman"], env=process_env, stdout=subprocess.PIPE)
+    while podinpod_cmd.poll() is None:
+        line = podinpod_cmd.stdout.readline().decode()
+        podinpod_response.append(line)
+
+    with st.expander("Podman in Podman Test Output"):
+        with st.container(key="podinpod_output"):
+            st.html("".join(podinpod_response))
+
+    progress_bar.progress(30, text="Pulling Appliance Image...")
 
     # Pull the appliance image
     pull_response = ["<div />"]
@@ -201,7 +213,8 @@ if generateISO_button:
         with st.container(key="pull_output"):
             #pull_output = st.empty()
             st.html("".join(pull_response))
-    progress_bar.progress(20, text="Building Appliance Image...")
+
+    progress_bar.progress(50, text="Building Appliance Image...")
 
     podmanApplianceImageBuild_cmd = [
         "podman",
@@ -221,7 +234,7 @@ if generateISO_button:
         "debug",
     ]
 
-    build_output = st.empty()
+    #build_output = st.empty()
     build_response = ["<div />"]
 
     applianceBuild_cmd = subprocess.Popen(podmanApplianceImageBuild_cmd, env=process_env, stdout=subprocess.PIPE)
@@ -231,4 +244,4 @@ if generateISO_button:
 
     with st.expander("Image Build Output"):
         with st.container(key="build_output"):
-            build_output.html("".join(build_response))
+            st.html("".join(build_response))
