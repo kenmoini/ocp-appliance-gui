@@ -13,7 +13,7 @@ VOLUME /data
 COPY setup/ /opt/app-root/setup/
 
 RUN dnf update -y \
- && dnf install -y python3 python3-pip nmstate \
+ && dnf install -y python3 python3-pip nmstate wget \
  && dnf clean all \
  && rm -rf /var/cache /var/log/dnf* /var/log/yum.* \
  && DEST_MODE="system" /opt/app-root/setup/download-ocp-binaries.sh
