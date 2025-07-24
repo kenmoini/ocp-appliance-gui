@@ -33,7 +33,7 @@ deactivate
 
 ## Container Stuffs
 
-> So evidently Podman-in-Podman-in-Podman is tough?  Appliance GUI doesn't work
+> So evidently Podman-in-Podman-in-Podman is tough?  Appliance GUI doesn't work running in a container
 
 ```bash
 podman build -t ocp-appliance-gui .
