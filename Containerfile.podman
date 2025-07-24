@@ -1,6 +1,7 @@
 ##################################################################################
 # Must be built on an entitled RHEL system
-FROM quay.io/podman/stable:latest
+#FROM quay.io/podman/stable:latest
+FROM registry.redhat.io/rhel9/podman:9.6-1752639826
 WORKDIR /opt/app-root/src/gui
 
 ##################################################################################
