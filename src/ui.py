@@ -221,7 +221,7 @@ if generateISO_button:
         line = appliancePull_cmd.stdout.readline().decode()
         pull_response.append(line)
 
-    with st.expander("Podman Image Pull Output"):
+    with st.expander("Appliance Image Pull Output"):
         with st.container(key="pull_output"):
             #pull_output = st.empty()
             st.html("".join(pull_response))
@@ -256,6 +256,6 @@ if generateISO_button:
         line = applianceBuild_cmd.stdout.readline().decode()
         build_response.append(line)
 
-    with st.expander("Image Build Output"):
+    with st.expander("Appliance Image Build Output"):
         with st.container(key="build_output"):
             st.html("".join(build_response))
