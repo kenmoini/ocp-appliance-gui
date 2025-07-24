@@ -44,4 +44,11 @@ podman run --name ocp-gui --rm -it -p 8501:8501 \
  --net=host \
  --privileged -v /run/podman/podman.sock:/run/podman/podman.sock \
  quay.io/kenmoini/ocp-appliance-gui:latest
+
+# Combo Wombo
+podman build -t ocp-appliance-gui . \
+ && podman run --name ocp-gui --rm -it -p 8501:8501 \
+ -v ./gui-data:/data \
+ --privileged -v /run/podman/podman.sock:/run/podman/podman.sock \
+ ocp-appliance-gui
 ```

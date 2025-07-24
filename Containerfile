@@ -24,6 +24,7 @@ RUN pip install -r /opt/app-root/setup/requirements.txt
 ##################################################################################
 # Copy over application files and set permissions
 USER root
+ADD https://raw.githubusercontent.com/containers/image_build/refs/heads/main/podman/containers.conf /etc/containers/containers.conf
 COPY src/ /opt/app-root/src/gui/
 RUN chown -R default:root /opt/app-root/src/gui
 
@@ -31,11 +32,13 @@ RUN chown -R default:root /opt/app-root/src/gui
 # Final container composition
 USER default
 EXPOSE 8501
+ADD https://raw.githubusercontent.com/containers/image_build/refs/heads/main/podman/podman-containers.conf /opt/app-root/src/.config/containers/containers.conf
+
 
 # Rootful container store
 VOLUME /var/lib/containers
 # Rootless container store
-VOLUME /home/default/.local/share/containers
+VOLUME /opt/app-root/src/.local/share/containers
 # Asset directory
 VOLUME /data
 
