@@ -20,7 +20,7 @@ RUN dnf update -y \
 
 ##################################################################################
 # Install application dependencies
-USER podman
+#USER podman
 RUN pip install -r /opt/app-root/setup/requirements.txt
 
 ##################################################################################
