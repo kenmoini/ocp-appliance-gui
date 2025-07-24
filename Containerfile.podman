@@ -20,18 +20,18 @@ RUN dnf update -y \
 
 ##################################################################################
 # Install application dependencies
-#USER podman
+USER podman
 RUN pip install -r /opt/app-root/setup/requirements.txt
 
 ##################################################################################
 # Copy over application files and set permissions
-#USER root
+USER root
 COPY src/ /opt/app-root/src/gui/
-RUN chown default:root -R /opt/app-root/src/
+RUN chown podman:root -R /opt/app-root/src/
 
 ##################################################################################
 # Final container composition
-#USER default
+#USER podman
 EXPOSE 8501
 
 ENTRYPOINT ["/opt/app-root/src/gui/entrypoint.sh"]
