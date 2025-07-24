@@ -151,7 +151,7 @@ if generateISO_button:
     response.append(f"<strong>BUILD_BASE_PATH:</strong> {os.environ.get('BUILD_BASE_PATH')}<br /><hr />")
     response.append(f"<strong>Podman Info:</strong><br /><pre>")
 
-    # Run a test execution of podman to ensure it's available
+    # Run a test execution of podman info to ensure it's available
     process_env = os.environ.copy()
     podmanVersion = subprocess.Popen(["podman", "info"], env=process_env, stdout=subprocess.PIPE)
 
@@ -190,7 +190,6 @@ if generateISO_button:
     progress_bar.progress(10, text="Pulling Appliance Image...")
 
     # Pull the appliance image
-    pull_output = st.container()
     pull_response = ["<div />"]
 
     appliancePull_cmd = subprocess.Popen(["podman", "pull", os.environ.get('APPLIANCE_IMAGE')], env=process_env, stdout=subprocess.PIPE)
@@ -200,7 +199,8 @@ if generateISO_button:
 
     with st.expander("Podman Image Pull Output"):
         with st.container(key="pull_output"):
-            pull_output.html("".join(pull_response))
+            #pull_output = st.empty()
+            st.html("".join(pull_response))
     progress_bar.progress(20, text="Building Appliance Image...")
 
     podmanApplianceImageBuild_cmd = [
