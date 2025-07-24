@@ -69,11 +69,20 @@ with col2:
 pullSecret = st.text_input(label="OpenShift Pull Secret", type="password")
 publicKey = st.text_input(label="SSH Public Key")
 
-operatorOptionNames = [op["displayName"] for op in availableOperators.values()]
-includedOperators = st.multiselect(
-    "Included Operators",
-    operatorOptionNames,
-)
+
+with st.expander("General Network Configuration"):
+    dnsServers = st.multiselect(
+        "DNS Servers",
+        [],
+        max_selections=3,
+        accept_new_options=True,
+    )
+    dnsServers = st.multiselect(
+        "DNS Search Domains",
+        [],
+        max_selections=3,
+        accept_new_options=True,
+    )
 
 submit_button = st.button(label="Generate Configuration")
 
