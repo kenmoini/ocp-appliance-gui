@@ -20,12 +20,12 @@ RUN dnf update -y \
 
 ##################################################################################
 # Install application dependencies
-USER default
+#USER podman
 RUN pip install -r /opt/app-root/setup/requirements.txt
 
 ##################################################################################
 # Copy over application files and set permissions
-USER root
+#USER root
 COPY src/ /opt/app-root/src/gui/
 RUN chown default:root -R /opt/app-root/src/
 
