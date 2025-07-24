@@ -240,7 +240,6 @@ if generateISO_button:
         "--net=host",
         "-v",
         "/etc/pki:/etc/pki:ro",
-        "--env-host",
         "-v",
         f"{build_assets_path}:/assets:Z",
         f"{os.environ.get('APPLIANCE_IMAGE')}",
