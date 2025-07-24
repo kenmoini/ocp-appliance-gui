@@ -149,11 +149,11 @@ if generateISO_button:
     # Provide some basic feedback
     response.append(f"<strong>Build name:</strong> {buildName}<br />")
     response.append(f"<strong>BUILD_BASE_PATH:</strong> {os.environ.get('BUILD_BASE_PATH')}<br /><hr />")
-    response.append(f"<strong>Podman Version:</strong><br /><pre>")
+    response.append(f"<strong>Podman Info:</strong><br /><pre>")
 
     # Run a test execution of podman to ensure it's available
     process_env = os.environ.copy()
-    podmanVersion = subprocess.Popen(["podman", "version"], env=process_env, stdout=subprocess.PIPE)
+    podmanVersion = subprocess.Popen(["podman", "info"], env=process_env, stdout=subprocess.PIPE)
 
     while podmanVersion.poll() is None:
         line = podmanVersion.stdout.readline().decode()
