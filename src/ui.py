@@ -163,7 +163,9 @@ if generateISO_button:
 
     response.append(f"</pre><hr />")
 
+    #=====================================================================
     # Check the Openshift Installer version
+    #=====================================================================
     response.append(f"<strong>OpenShift Installer Version:</strong><br /><pre>")
     ocpApplianceBuild = subprocess.Popen(["openshift-install", "version"], env=process_env, stdout=subprocess.PIPE)
     while ocpApplianceBuild.poll() is None:
@@ -172,7 +174,9 @@ if generateISO_button:
 
     response.append(f"</pre><hr />")
 
+    #=====================================================================
     # Save the configuration to a file
+    #=====================================================================
     config_file_path = os.path.join(build_path, "appliance-config.yaml")
     with open(config_file_path, "w") as config_file:
         config_file.write(st.session_state["configText"])
@@ -183,13 +187,19 @@ if generateISO_button:
 
     response.append(f"<strong>Configuration saved to:</strong> {config_file_path}<br /><hr />")
 
+    #=====================================================================
+    # Output Initialization Data
+    #=====================================================================
     with st.expander("Initialization Output"):
         with st.container(key="init_output"):
             st.html("".join(response))
 
+    #=====================================================================
+    # Podman in Podman Test
+    #=====================================================================
     progress_bar.progress(20, text="Testing Podman in Podman...")
-    podinpod_response = ["<div />"]
 
+    podinpod_response = ["<div />"]
     podinpod_cmd = subprocess.Popen(["podman", "run", "--privileged", "quay.io/podman/stable", "podman", "run", "ubi8", "echo", "HelloFromPodmanInPodman"], env=process_env, stdout=subprocess.PIPE)
     while podinpod_cmd.poll() is None:
         line = podinpod_cmd.stdout.readline().decode()
@@ -199,11 +209,13 @@ if generateISO_button:
         with st.container(key="podinpod_output"):
             st.html("".join(podinpod_response))
 
+
+    #=====================================================================
+    # Pull the appliance image
+    #=====================================================================
     progress_bar.progress(30, text="Pulling Appliance Image...")
 
-    # Pull the appliance image
     pull_response = ["<div />"]
-
     appliancePull_cmd = subprocess.Popen(["podman", "pull", os.environ.get('APPLIANCE_IMAGE')], env=process_env, stdout=subprocess.PIPE)
     while appliancePull_cmd.poll() is None:
         line = appliancePull_cmd.stdout.readline().decode()
@@ -214,6 +226,9 @@ if generateISO_button:
             #pull_output = st.empty()
             st.html("".join(pull_response))
 
+    #=====================================================================
+    # Build the Appliance Image
+    #=====================================================================
     progress_bar.progress(50, text="Building Appliance Image...")
 
     podmanApplianceImageBuild_cmd = [
