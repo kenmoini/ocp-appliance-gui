@@ -1,13 +1,11 @@
 import streamlit as st
 from jinja2 import Environment, FileSystemLoader
-import os
-import subprocess
-#import boto3
-#from botocore.exceptions import ClientError
+import os, time, subprocess
 
-
+# Setup Jinja2 environment for templating
 environment = Environment(loader=FileSystemLoader("templates/"))
-applianceConfigTemplate = environment.get_template("appliance-config.yaml.j2")
+installConfigTemplate = environment.get_template("install-config.yaml.j2")
+agentConfigTemplate = environment.get_template("agent-config.yaml.j2")
 
 # Defaults
 enableDefaultSources = False
@@ -17,15 +15,29 @@ enableInteractiveFlow = False
 useDefaultSourceNames = False
 
 
+# Set default values for session state
 if "configText" not in st.session_state:
     st.session_state["configText"] = "To be generated..."
 
+if 'current_step' not in st.session_state:
+    st.session_state['current_step'] = 1
+
+if 'current_view' not in st.session_state:
+    st.session_state['current_view'] = 'Grid'
+
+# Load CSS
+with open('./static/custom.css') as f:
+    css = f.read()
+st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
+
+# Page configuration
 st.title("OpenShift Agent Installer")
 st.header("Configuration Generator")
 
 with st.sidebar:
     st.markdown("## Helpful Links")
     st.markdown("[Downloads](https://console.redhat.com/openshift/downloads/)")
+    st.markdown("[Update Graph](https://access.redhat.com/labs/ocpupgradegraph/update_path/)")
     
 col1, col2 =st.columns(2)
 
@@ -61,51 +73,14 @@ if submit_button:
             "ocpVersion": ocpVersion,
             "ocpChannel": ocpChannel,
             "ocpArchitecture": ocpArchitecture,
-            "coreUserPass": coreUserPass,
             "fipsMode": fipsMode,
             "pullSecret": pullSecret,
             "publicKey": publicKey,
-            "enableDefaultSources": enableDefaultSources,
-            "stopLocalRegistry": stopLocalRegistry,
-            "createPinnedImageSets": createPinnedImageSets,
-            "enableInteractiveFlow": enableInteractiveFlow,
-            "useDefaultSourceNames": useDefaultSourceNames,
-            "includedOperators": includedOperators,
         }
-        filename = f"appliance-config.yaml"
-        content = applianceConfigTemplate.render(compiledInputData)
-        #print(content)
-        with st.expander("appliance-config.yaml"):
-            st.code(content, language="yaml")
-        with st.expander("appliance-config.yaml - No comments"):
-            noCommentContent = ""
-            for line in content.splitlines():
-                if not line.strip().startswith(("#", "  #")) and line.strip() != "":
-                    noCommentContent += line + "\n"
-            st.code(noCommentContent, language="yaml")
-            st.session_state["configText"] = noCommentContent
+        installConfigContent = installConfigTemplate.render(compiledInputData)
+        agentConfigContent = agentConfigTemplate.render(compiledInputData)
 
-st.divider()
-
-st.header("Image Builder")
-
-generatedConfig = st.text_area(label="Configuration", disabled=True, value=st.session_state["configText"])
-buildName = st.text_input(label="Build Name", placeholder="Defaults to version-arch-time")
-generateISO_button = st.button(label="Generate Image", type="primary")
-
-if generateISO_button:
-    if buildName == "":
-        buildName = f"{ocpVersion}-{ocpArchitecture}-{int(os.time())}"
-    process_env = os.environ.copy()
-    x = subprocess.Popen(["podman", "version"], env=process_env, stdout=subprocess.PIPE)
-
-
-    container_output = st.empty()
-    response = []
-    num_lines=0
-    while x.poll() is None:
-        line = x.stdout.readline().decode()
-        num_lines += 1
-        response.append(line)
-
-    container_output.write("".join(response))
+        with st.expander("install-config.yaml"):
+            st.code(installConfigContent, language="yaml")
+        with st.expander("agent-config.yaml"):
+            st.code(agentConfigContent, language="yaml")
