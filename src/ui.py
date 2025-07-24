@@ -190,7 +190,7 @@ if generateISO_button:
     #=====================================================================
     # Output Initialization Data
     #=====================================================================
-    with st.expander("Initialization Output"):
+    with st.expander("1. Initialization Output"):
         with st.container(key="init_output"):
             st.html("".join(response))
 
@@ -205,7 +205,7 @@ if generateISO_button:
         line = podinpod_cmd.stdout.readline().decode()
         podinpod_response.append(line)
 
-    with st.expander("Podman in Podman Test Output"):
+    with st.expander("2. Podman in Podman Test Output"):
         with st.container(key="podinpod_output"):
             st.html("".join(podinpod_response))
 
@@ -221,7 +221,7 @@ if generateISO_button:
         line = appliancePull_cmd.stdout.readline().decode()
         pull_response.append(line)
 
-    with st.expander("Appliance Image Pull Output"):
+    with st.expander("3. Appliance Image Pull Output"):
         with st.container(key="pull_output"):
             #pull_output = st.empty()
             st.html("".join(pull_response))
@@ -239,8 +239,6 @@ if generateISO_button:
         "--privileged",
         "--net=host",
         "-v",
-        "/etc/pki:/etc/pki:ro",
-        "-v",
         f"{build_assets_path}:/assets:Z",
         f"{os.environ.get('APPLIANCE_IMAGE')}",
         "build",
@@ -256,6 +254,6 @@ if generateISO_button:
         line = applianceBuild_cmd.stdout.readline().decode()
         build_response.append(line)
 
-    with st.expander("Appliance Image Build Output"):
+    with st.expander("4. Appliance Image Build Output"):
         with st.container(key="build_output"):
             st.html("".join(build_response))
