@@ -20,7 +20,7 @@ fi
 if [ ! -d "./gui-data" ]; then
     echo "Creating gui-data directory..."
     mkdir -p ./gui-data/{data,graph}
-    chmod 777 -R ./gui-data
+    chmod -R 777 ./gui-data
 fi
 
 python3 -m venv ./venv
