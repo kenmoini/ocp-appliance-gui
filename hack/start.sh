@@ -10,7 +10,7 @@ fi
 if [ ! -d "./gui-data" ]; then
     echo "Creating gui-data directory..."
     mkdir -p ./gui-data/{data,graph}
-    chmod 777 ./gui-data
+    chmod 777 -R ./gui-data
 fi
 
 export GUI_MODE=${1:-"appliance"} # appliance, agent
