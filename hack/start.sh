@@ -20,6 +20,7 @@ podman run --name ocp-gui \
   --rm -it \
   --privileged \
   -p 8501:8501 \
+  -e GUI_MODE=${GUI_MODE} \
   -v ./gui-data/data:/data:Z \
   -v ./gui-data/graph:/var/lib/containers \
   -v /run/podman/podman.sock:/run/podman/podman.sock \
