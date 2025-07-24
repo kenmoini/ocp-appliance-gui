@@ -19,7 +19,7 @@ fi
 
 python3 -m venv ${PROJECT_ROOT}/gui-data/venv
 source ${PROJECT_ROOT}/gui-data/venv/bin/activate
-python3 -m pip install -r ${PROJECT_ROOT}/src/requirements.txt
+python3 -m pip install -r ${PROJECT_ROOT}/setup/requirements.txt
 
 export GUI_MODE=${1:-"appliance"} # appliance, agent
 export BUILD_BASE_PATH=${BUILD_BASE_PATH:-"./gui-data/data"}
