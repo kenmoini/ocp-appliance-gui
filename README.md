@@ -1,4 +1,16 @@
-# OpenShift Appliance Installation GUI
+# OpenShift Appliance/Agent Installation GUI
+
+This project aims to simplify the installation process for OpenShift on-premise.  The methods targeted are Appliance and Agent based installations.
+
+By downloading this garbage Python code, you get a GUI that can generate your YAMLs, and even build your assets for you - in an interface that doesn't totally suck!  It sucks less than having NOTHING.
+
+## Prerequisites
+
+- An entitled/subscribed RHEL system
+- git
+- wget
+- Podman
+- Python 3
 
 ## Development/Running
 
@@ -30,6 +42,8 @@ streamlit run agent-ui.py
 # Terminate the venv
 deactivate
 ```
+
+> Once the application is running, open your browser to http://localhost:8501
 
 ## Container Stuffs
 
