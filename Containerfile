@@ -26,7 +26,7 @@ RUN pip install -r /opt/app-root/setup/requirements.txt
 USER root
 ADD https://raw.githubusercontent.com/containers/image_build/refs/heads/main/podman/containers.conf /etc/containers/containers.conf
 COPY src/ /opt/app-root/src/gui/
-RUN chown -R default:root /opt/app-root/src/*
+RUN chown -R default:root /opt/app-root/src/ /opt/app-root/src/.config /opt/app-root/src/.local
 
 ##################################################################################
 # Final container composition
