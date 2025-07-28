@@ -236,6 +236,8 @@ if generateISO_button:
         "run",
         "--rm",
         "-it",
+        "--security-opt",
+        "label=disable",
         "--privileged",
         "--net=host",
         "-v",

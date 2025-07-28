@@ -19,6 +19,7 @@ export IMAGE_NAME=${IMAGE_NAME:-"ocp-appliance-gui"}
 podman run --name ocp-gui \
   --rm -it \
   --privileged \
+  --security-opt label=disable \
   -p 8501:8501 \
   -e GUI_MODE=${GUI_MODE} \
   -v ./gui-data/data:/data:Z \
