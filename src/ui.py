@@ -261,7 +261,8 @@ if generateISO_button:
     podmanApplianceImageBuild_cmd = [
         "podman",
         "run",
-        "--name ocp-app-builder",
+        "--name",
+        "ocp-app-builder",
         "--rm",
         "-it",
         "--privileged",
