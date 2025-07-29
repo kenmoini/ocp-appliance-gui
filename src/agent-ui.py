@@ -76,7 +76,10 @@ with st.sidebar:
     st.markdown("[Downloads](https://console.redhat.com/openshift/downloads/)")
     st.markdown("[Update Graph](https://access.redhat.com/labs/ocpupgradegraph/update_path/)")
     st.markdown("[OpenShift Pull Secret](https://console.redhat.com/openshift/install/pull-secret)")
-    
+
+clusterName = st.text_input(label="Cluster Name", help="The name of the cluster, e.g. mycluster")
+clusterBaseDomain = st.text_input(label="Cluster Base Domain", help="The base domain for the cluster, e.g. example.com")
+
 col1, col2 =st.columns(2)
 with col1:
     ocpVersion = st.selectbox(label="OpenShift Version", 
@@ -85,7 +88,9 @@ with col1:
                                 options=["x86_64","aarch64","ppc64le"],index=0)
 
 with col2:
-    coreUserPass = st.text_input(label="core User Password")
+    controlPlaneCount = st.selectbox(label="Control Plane Count",
+                                options=[1, 3], index=1,
+                                help="Number of control plane nodes in the cluster")
     fipsMode = st.selectbox(label="FIPS Mode", 
                                     options=["Disabled", "Enabled"],index=0)
 
@@ -110,6 +115,19 @@ with st.expander("SSH Public Key Configuration"):
     if uploadedPublicKeyFile:
         processPubKeyUpload(uploadedPublicKeyFile)
 
+with st.expander("Certificate Authority Configuration"):
+    caCertBundle = st.text_area(
+        label="CA Certificate Bundle",
+        value=st.session_state["additionalTrustBundle"],
+        help="PEM-encoded CA certificate bundle for the cluster",
+        height=200,
+    )
+    #uploadedCertificateBundles = st.file_uploader("Or upload files", accept_multiple_files=True)
+    #for uploaded_file in uploadedCertificateBundles:
+    #    bytes_data = uploaded_file.read()
+    #    #st.write(bytes_data)
+    #    certData = "# " + uploaded_file.name + "\n" + bytes_data.decode("utf-8") + "\n"
+    #    st.session_state["additionalTrustBundle"] += certData
 
 with st.expander("General Network Configuration"):
     dnsServers = st.multiselect(
@@ -157,20 +175,6 @@ with st.expander("General Network Configuration"):
         accept_new_options=True,
     )
 
-with st.expander("Certificate Authority Configuration"):
-    caCertBundle = st.text_area(
-        label="CA Certificate Bundle",
-        value=st.session_state["additionalTrustBundle"],
-        help="PEM-encoded CA certificate bundle for the cluster",
-        height=200,
-    )
-    #uploadedCertificateBundles = st.file_uploader("Or upload files", accept_multiple_files=True)
-    #for uploaded_file in uploadedCertificateBundles:
-    #    bytes_data = uploaded_file.read()
-    #    #st.write(bytes_data)
-    #    certData = "# " + uploaded_file.name + "\n" + bytes_data.decode("utf-8") + "\n"
-    #    st.session_state["additionalTrustBundle"] += certData
-
 
 submit_button = st.button(label="Generate Configuration")
 
@@ -181,6 +185,9 @@ if submit_button:
         st.error("Pull Secret is required.")
     else:
         compiledInputData = {
+            "clusterName": clusterName,
+            "clusterBaseDomain": clusterBaseDomain,
+            "controlPlaneCount": controlPlaneCount,
             "ocpVersion": ocpVersion,
             "ocpChannel": ocpChannel,
             "ocpArchitecture": ocpArchitecture,
