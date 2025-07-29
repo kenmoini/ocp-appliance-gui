@@ -244,6 +244,8 @@ if generateISO_button:
         "--net=host",
         "--device=/dev/fuse",
         "-v",
+        "/run/podman/podman.sock:/run/podman/podman.sock",
+        "-v",
         f"{build_assets_path}:/assets:Z",
         f"{os.environ.get('APPLIANCE_IMAGE')}",
         "build",
