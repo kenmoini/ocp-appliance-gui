@@ -283,9 +283,16 @@ if generateISO_button:
     build_response = ["<pre>"]
 
     applianceBuild_cmd = subprocess.Popen(podmanApplianceImageBuild_cmd, env=process_env, stdout=subprocess.PIPE)
+    prevLine = ""
     while applianceBuild_cmd.poll() is None:
         line = applianceBuild_cmd.stdout.readline().decode()
-        build_response.append(line)
+        # If the line is the same as the previous one, skip it to avoid duplicates
+        if line.strip() == prevLine.strip():
+            continue
+        prevLine = line.strip()
+        if line.strip() != "":
+            # Append the line to the build response
+            build_response.append(line)
     build_response.append("</pre>")
 
     with st.expander("4. Appliance Image Build Output"):
