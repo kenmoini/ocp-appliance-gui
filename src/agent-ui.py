@@ -100,7 +100,7 @@ with st.expander("SSH Public Key Configuration"):
         content = uploadedPublicKeyFile.read().decode("utf-8")
         st.session_state["sshPubKey"] = content
 
-    publicKey = st.text_input(label="SSH Public Key", value=f"{st.session_state["sshPubKey"]}")
+    publicKey = st.text_input(label="SSH Public Key", value=st.session_state["sshPubKey"]")
 
     uploadedPublicKeyFile = st.file_uploader("Or choose a Public Key file")
 
