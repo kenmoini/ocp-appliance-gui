@@ -59,7 +59,7 @@ else:
     # Find what version is provided by the unversioned binary
     ocpVersions = []
 
-    ocpInstVersion = subprocess.Popen(["../bin/openshift-install", "version", "|", "head", "-n1", "|", "cut", "-d' '", "-f2"], env=process_env, stdout=subprocess.PIPE)
+    ocpInstVersion = subprocess.Popen(["openshift-install", "version", "|", "head", "-n1", "|", "cut", "-d' '", "-f2"], env=process_env, stdout=subprocess.PIPE)
     ocpInstVersionOutput = ocpInstVersion.stdout.read().decode().strip()
     if ocpInstVersionOutput:
         ocpVersions.append(ocpInstVersionOutput)
