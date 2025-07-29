@@ -22,9 +22,9 @@ podman run --name ocp-gui \
   --privileged \
   --net=host \
   --security-opt label=disable \
+  --device=/dev/fuse \
   -e GUI_MODE=${GUI_MODE} \
   -v ./gui-data/data:/data:Z \
   -v ./gui-data/graph:/var/lib/containers \
   -v /run/podman/podman.sock:/run/podman/podman.sock \
-  --device=/dev/fuse \
   ${IMAGE_NAME}
