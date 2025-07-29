@@ -50,9 +50,9 @@ with open('./static/custom.css') as f:
 st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
 
 # Load the enabled versions of the openshift-installer binaries
-if os.path.exists("../bin/versioned-bin"):
+if os.path.exists("bin/versioned-bin"):
     # Loop through the folders and return the names of them
-    versionedBinPath = "../bin/versioned-bin"
+    versionedBinPath = "bin/versioned-bin"
     ocpVersions = [d for d in os.listdir(versionedBinPath) if os.path.isdir(os.path.join(versionedBinPath, d))]
     ocpVersions.sort(reverse=True)  # Sort versions in descending order
 else:
