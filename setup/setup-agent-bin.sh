@@ -62,7 +62,7 @@ cd bin/tmp
 # Butane defaults to latest since it doesn't follow OCP versions
 wget https://mirror.openshift.com/pub/openshift-v4/clients/butane/${BUTANE_CHANNEL}/${BUTANE_FILENAME}
 wget https://mirror.openshift.com/pub/openshift-v4/clients/ocp/${CHANNEL}/${OPENSHIFT_CLIENT_FILENAME}.tar.gz
-wget https://mirror.openshift.com/pub/openshift-v4/clients/ocp/${v}/${OPENSHIFT_INSTALL_FILENAME}.tar.gz
+wget https://mirror.openshift.com/pub/openshift-v4/clients/ocp/${CHANNEL}/${OPENSHIFT_INSTALL_FILENAME}.tar.gz
 wget https://github.com/mikefarah/yq/releases/latest/download/${YQ_BIN_NAME} -O yq
 
 # Get additional files for x86_64 - rather things that don't have an Arm64 build
