@@ -202,7 +202,31 @@ if generateISO_button:
     progress_bar.progress(20, text="Testing Podman in Podman...")
 
     podinpod_response = ["<div />"]
-    podinpod_cmd = subprocess.Popen(["podman", "run", "--privileged", "quay.io/podman/stable", "podman", "run", "--rm", "ubi8", "echo", "HelloFromPodmanInPodman"], env=process_env, stdout=subprocess.PIPE)
+    podinpod_cmd = subprocess.Popen([
+        "podman",
+        "run",
+        "--privileged",
+        "--security-opt",
+        "label=disable",
+        "--net=host",
+        "--device=/dev/fuse",
+        "-v",
+        "/run/podman/podman.sock:/run/podman/podman.sock",
+        "quay.io/podman/stable",
+        "podman",
+        "run",
+        "--rm",
+        "--privileged",
+        "--security-opt",
+        "label=disable",
+        "--net=host",
+        "--device=/dev/fuse",
+        "-v",
+        "/run/podman/podman.sock:/run/podman/podman.sock",
+        "ubi8",
+        "echo",
+        "HelloFromPodmanInPodman"
+    ], env=process_env, stdout=subprocess.PIPE)
     while podinpod_cmd.poll() is None:
         line = podinpod_cmd.stdout.readline().decode()
         podinpod_response.append(line)
