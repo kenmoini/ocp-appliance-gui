@@ -16,11 +16,12 @@ fi
 export GUI_MODE=${1:-"appliance"} # appliance, agent
 export IMAGE_NAME=${IMAGE_NAME:-"ocp-appliance-gui"}
 
+  #-p 8501:8501 \
 podman run --name ocp-gui \
   --rm -it \
   --privileged \
+  --net=host \
   --security-opt label=disable \
-  -p 8501:8501 \
   -e GUI_MODE=${GUI_MODE} \
   -v ./gui-data/data:/data:Z \
   -v ./gui-data/graph:/var/lib/containers \
