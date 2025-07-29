@@ -111,5 +111,6 @@ for v in "${BIN_VERSION[@]}"; do
   tar zxvf ${OPENSHIFT_CLIENT_FILENAME}.tar.gz
   rm -vf ${OPENSHIFT_INSTALL_FILENAME}.tar.gz ${OPENSHIFT_CLIENT_FILENAME}.tar.gz README.md
   chmod a+x openshift-install kubectl oc
+  cd ..
 done
 
