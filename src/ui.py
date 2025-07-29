@@ -240,6 +240,7 @@ if generateISO_button:
         "label=disable",
         "--privileged",
         "--net=host",
+        "--device=/dev/fuse",
         "-v",
         f"{build_assets_path}:/assets:Z",
         f"{os.environ.get('APPLIANCE_IMAGE')}",
