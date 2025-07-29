@@ -151,6 +151,8 @@ if generateISO_button:
     # Provide some basic feedback
     response.append(f"<strong>Build name:</strong> {buildName}<br />")
     response.append(f"<strong>BUILD_BASE_PATH:</strong> {os.environ.get('BUILD_BASE_PATH')}<br /><hr />")
+    response.append(f"<strong>Build Path:</strong> {build_path}<br />")
+    response.append(f"<strong>Build Assets Path:</strong> {build_assets_path}<br /><hr />")
     response.append(f"<strong>Podman Info:</strong><br /><pre>")
 
     # Run a test execution of podman info to ensure it's available
