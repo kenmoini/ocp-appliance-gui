@@ -48,6 +48,13 @@ with open('./static/custom.css') as f:
     css = f.read()
 st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
 
+# Load the enabled versions of the openshift-installer binaries
+if os.path.exists("../bin/versioned-bin"):
+    # Loop through the folders and return the names of them
+    versionedBinPath = "../bin/versioned-bin"
+    ocpVersions = [d for d in os.listdir(versionedBinPath) if os.path.isdir(os.path.join(versionedBinPath, d))]
+    ocpVersions.sort(reverse=True)  # Sort versions in descending order
+
 # Page configuration
 st.title("OpenShift Agent Installer")
 st.header("Configuration Generator")
@@ -61,7 +68,7 @@ with st.sidebar:
 col1, col2 =st.columns(2)
 with col1:
     ocpVersion = st.selectbox(label="OpenShift Version", 
-                                options=["4.18", "4.19"],index=0)
+                                options=ocpVersions,index=0)
     ocpArchitecture = st.selectbox(label="CPU Architecture", 
                                 options=["x86_64","aarch64","ppc64le"],index=0)
 
