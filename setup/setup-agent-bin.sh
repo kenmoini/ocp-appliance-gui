@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set some default parameters
-BIN_VERSION=${BIN_VERSION:=("4.18.20" "4.19.4")}
+BIN_VERSION=("4.18.20" "4.19.4")
 DEST_MODE=${DEST_MODE:="local"} # local or system
 CHANNEL=${CHANNEL:="stable"} # latest, stable, stable-4.20, etc
 BUTANE_CHANNEL=${BUTANE_CHANNEL:="latest"} # latest, v0.23.0-0, etc
