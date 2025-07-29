@@ -205,6 +205,7 @@ if generateISO_button:
     podinpod_cmd = subprocess.Popen([
         "podman",
         "run",
+        "--rm",
         "--privileged",
         "--security-opt",
         "label=disable",
@@ -260,6 +261,7 @@ if generateISO_button:
     podmanApplianceImageBuild_cmd = [
         "podman",
         "run",
+        "--name ocp-app-builder",
         "--rm",
         "-it",
         "--privileged",
