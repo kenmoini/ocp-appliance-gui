@@ -55,6 +55,7 @@ with st.sidebar:
     st.markdown("## Helpful Links")
     st.markdown("[Downloads](https://console.redhat.com/openshift/downloads/)")
     st.markdown("[Update Graph](https://access.redhat.com/labs/ocpupgradegraph/update_path/)")
+    st.markdown("[OpenShift Pull Secret](https://console.redhat.com/openshift/install/pull-secret)")
     
 col1, col2 =st.columns(2)
 

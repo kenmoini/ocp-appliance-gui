@@ -23,7 +23,8 @@ RUN dnf update -y \
  && dnf install -y podman fuse-overlayfs --exclude container-selinux \
  && dnf clean all \
  && rm -rf /var/cache /var/log/dnf* /var/log/yum.* \
- && DEST_MODE="system" /opt/app-root/setup/download-ocp-binaries.sh
+ && DEST_MODE="system" /opt/app-root/setup/download-ocp-binaries.sh \
+ && DEST_MODE="local" /opt/app-root/setup/setup-agent-bin.sh
 
 RUN echo default:10000:5000 > /etc/subuid; \
  echo default:10000:5000 > /etc/subgid;

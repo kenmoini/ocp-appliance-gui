@@ -14,6 +14,13 @@ if [ -z "$TARGETPLATFORM" ]; then
   TARGETPLATFORM="${OS,}/${ARCH,}"
 fi
 
+# Set the destination directory
+if [ "$DEST_MODE" = "system" ]; then
+  DEST_DIR="/usr/local/bin"
+else
+  DEST_DIR="./bin"
+fi
+
 # Set the filenames based on the platform - it's not really a standard...
 if [ "$TARGETPLATFORM" = "linux/amd64" ] || [ "$TARGETPLATFORM" = "linux/x86_64" ]; then
   ARCH=x86_64
@@ -40,13 +47,6 @@ elif [ "$TARGETPLATFORM" = "darwin/arm64" ] || [ "$TARGETPLATFORM" = "darwin/aar
 else
   echo "$TARGETPLATFORM - Building for unsupported platform"
   exit 1
-fi
-
-# Set the destination directory
-if [ "$DEST_MODE" = "system" ]; then
-  DEST_DIR="/usr/local/bin"
-else
-  DEST_DIR="./bin"
 fi
 
 # Print some debug info
