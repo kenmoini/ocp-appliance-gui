@@ -3,6 +3,7 @@
   ansible.builtin.shell:
     cmd: >
       podman run --rm -it --privileged
+      --name appliance-converter
       --net=host
       -v /etc/pki:/etc/pki:ro
       -v {{ appliance_graph_path }}:/var/lib/containers:Z
