@@ -30,17 +30,17 @@
         that:
           - release_image_name is defined
 
-    - name: Read in the pull secret if it is defined as a file
-      when: pull_secret_path is defined
-      ansible.builtin.slurp:
-        src: "{{ pull_secret_path }}"
-      register: pull_secret_content
-      no_log: true
+    # - name: Read in the pull secret if it is defined as a file
+    #   when: pull_secret_path is defined
+    #   ansible.builtin.slurp:
+    #     src: "{{ pull_secret_path }}"
+    #   register: pull_secret_content
+    #   no_log: true
 
-    - name: Set the pull secret content
-      when: pull_secret_content is defined
-      ansible.builtin.set_fact:
-        pullSecret: "{{ pull_secret_content['content'] | b64decode | trim | from_json }}"
+    # - name: Set the pull secret content
+    #   when: pull_secret_content is defined
+    #   ansible.builtin.set_fact:
+    #     pullSecret: "{{ pull_secret_content['content'] | b64decode | trim | from_json }}"
 
     - name: Create working directories - Container Graph
       ansible.builtin.file:
