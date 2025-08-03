@@ -40,7 +40,7 @@
     - name: Set the pull secret content
       when: pull_secret_content is defined
       ansible.builtin.set_fact:
-        pullSecret: "{{ pull_secret_content['content'] | b64decode | trim | to_json }}"
+        pullSecret: "{{ pull_secret_content['content'] | b64decode | trim | from_json }}"
 
     - name: Create working directories - Container Graph
       ansible.builtin.file:
