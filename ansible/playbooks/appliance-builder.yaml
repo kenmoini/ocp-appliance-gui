@@ -9,6 +9,7 @@
 
     # Optional Inputs
     openshift_version: '4.19'
+    fipsMode: false
 
     # Defaults
     appliance_image: quay.io/edge-infrastructure/openshift-appliance@sha256:2a1187cdde61679e87e770c92efff997d02abc6d95bd1a61d6636d5859e83e27
