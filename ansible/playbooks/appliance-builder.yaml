@@ -4,7 +4,7 @@
   vars:
     # Required Inputs
     #release_image_name: 4.19-standard
-    #pull_secret: '{{ lookup("file", "pull-secret.json") }}'
+    #pull_secret: '{{ lookup("file", "/opt/.pull-secret.json") }}'
 
     # Optional Inputs
     openshift_version: '4.19'
