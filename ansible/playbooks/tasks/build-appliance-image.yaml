@@ -3,7 +3,7 @@
   ansible.builtin.template:
     src: post-image-shutdown.sh.j2
     dest: "{{ appliance_asset_path }}/post.sh"
-  mode: '0755'
+    mode: '0755'
 
 - name: Build Appliance image
   ansible.builtin.shell:
