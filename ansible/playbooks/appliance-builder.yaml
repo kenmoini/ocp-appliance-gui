@@ -40,7 +40,7 @@
     - name: Set the pull secret content
       when: pull_secret_content is defined
       ansible.builtin.set_fact:
-        pullSecret: "{{ pull_secret_content.stdout trim }}"
+        pullSecret: "{{ pull_secret_content.stdout | trim }}"
 
     - name: Create working directories - Container Graph
       ansible.builtin.file:
