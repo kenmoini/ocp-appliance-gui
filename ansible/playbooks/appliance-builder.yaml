@@ -4,7 +4,7 @@
   vars:
     # Required Inputs
     #release_image_name: 4.19-standard
-    #pull_secret: '{{ lookup("file", "/opt/.pull-secret.json") }}'
+    #pullSecret: '{{ lookup("file", "/opt/.pull-secret.json") }}'
     #pull_secret_path: /opt/.pull-secret.json
 
     # Optional Inputs
@@ -39,7 +39,7 @@
     - name: Set the pull secret content
       when: pull_secret_content is defined
       ansible.builtin.set_fact:
-        pull_secret: "{{ pull_secret_content['content'] | b64decode }}"
+        pullSecret: "{{ pull_secret_content['content'] | b64decode }}"
 
     - name: Create working directories - Container Graph
       ansible.builtin.file:
