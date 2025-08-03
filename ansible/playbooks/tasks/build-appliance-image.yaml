@@ -7,6 +7,7 @@
 
 - name: Build Appliance image
   ansible.builtin.shell:
+    creates: "{{ appliance_asset_path }}/appliance.raw"
     cmd: >
       podman run --rm -it --privileged
       --name appliance-builder
