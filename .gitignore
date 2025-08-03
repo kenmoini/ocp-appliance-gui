@@ -2,3 +2,5 @@ venv/
 venv/**
 gui-data/
 gui-data/**
+.vscode/
+.vscode/**

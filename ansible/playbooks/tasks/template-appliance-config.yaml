@@ -1,0 +1,5 @@
+---
+- name: Template the Appliance Configuration YAML
+  ansible.builtin.template:
+    src: appliance-config.yaml.j2
+    dest: "{{ output_appliance_config_path }}"

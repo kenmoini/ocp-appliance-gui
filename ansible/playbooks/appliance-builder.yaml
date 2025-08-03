@@ -1,0 +1,57 @@
+---
+- name: Build an OpenShift Appliance release image
+  hosts: all
+  vars:
+    # Required Inputs
+    #release_image_name: 4.19-standard
+
+    # Optional Inputs
+    openshift_version: '4.19'
+
+    # Defaults
+    appliance_image: quay.io/edge-infrastructure/openshift-appliance@sha256:2a1187cdde61679e87e770c92efff997d02abc6d95bd1a61d6636d5859e83e27
+
+    appliance_graph_path: /opt/var/lib/containers
+    appliance_base_path: /opt/appliance-builds
+
+    enableDefaultSources: false
+    useDefaultSourceNames: false
+    stopLocalRegistry: false
+    createPinnedImageSets: false
+    enableInteractiveFlow: false
+
+  tasks:
+
+    - name: Check if required inputs are set
+      ansible.builtin.assert:
+        that:
+          - release_image_name is defined
+
+    - name: Create working directories - Container Graph
+      ansible.builtin.file:
+        state: directory
+        path: "{{ appliance_graph_path }}"
+
+    - name: Create working directories - Appliance Base Path
+      ansible.builtin.file:
+        state: directory
+        path: "{{ appliance_base_path }}"
+
+    - name: Set the general facts
+      ansible.builtin.set_fact:
+        appliance_asset_path: "{{ appliance_base_path }}/{{ release_image_name }}/assets"
+        output_appliance_config_path: "{{ appliance_base_path }}/{{ release_image_name }}/assets/appliance-config.yaml"
+
+    - name: Create working directories - Appliance Base Path - Release Image
+      ansible.builtin.file:
+        state: directory
+        path: "{{ appliance_base_path }}/{{ release_image_name }}"
+
+    - name: Create working directories - Appliance Asset Path
+      ansible.builtin.file:
+        state: directory
+        path: "{{ appliance_asset_path }}"
+
+    - name: Create Configuration
+      ansible.builtin.include_tasks:
+        file: tasks/template-appliance-config.yaml

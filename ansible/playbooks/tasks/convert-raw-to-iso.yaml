@@ -1,0 +1,10 @@
+---
+- name: Convert RAW image to bootable ISO
+  ansible.builtin.shell:
+    cmd: >
+      podman run --rm -it --privileged
+      --net=host
+      -v /etc/pki:/etc/pki:ro
+      -v {{ appliance_graph_path }}:/var/lib/containers:Z
+      -v {{ appliance_asset_path }}:/assets:Z
+      {{ appliance_image }} build iso --target-device {{ target_boot_device }} --post-script post.sh --log-level debug
