@@ -6,7 +6,7 @@
     - name: Transfer file from sourceServer to targetServer
       ansible.posix.synchronize:
         src: "{{ srcFilePath }}"
-        dest: "{{ destFilePath }}"
+        dest: "{{ targetFilePath }}"
       delegate_to: sourceServer
 
     - name: Set the permissions of the freshly copied file
@@ -15,5 +15,5 @@
         mode: "{{ targetModePermissions | default(omit) }}"
         owner: "{{ targetOwner | default(omit) }}"
         group: "{{ targetGroup | default(omit) }}"
-        path: "{{ destFilePath }}"
+        path: "{{ targetFilePath }}"
       delegate_to: targetServer
