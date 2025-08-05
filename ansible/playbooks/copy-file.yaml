@@ -4,7 +4,16 @@
   tasks:
 
     - name: Transfer file from sourceServer to targetServer
-      ansible.builtin.synchronize:
+      ansible.posix.synchronize:
         src: "{{ srcFilePath }}"
         dest: "{{ destFilePath }}"
       delegate_to: sourceServer
+
+    - name: Set the permissions of the freshly copied file
+      when: targetModePermissions is defined or targetOwner is defined or targetGroup is defined
+      ansible.builtin.file:
+        mode: "{{ targetModePermissions | default(omit) }}"
+        owner: "{{ targetOwner | default(omit) }}"
+        group: "{{ targetGroup | default(omit) }}"
+        path: "{{ destFilePath }}"
+      delegate_to: targetServer
