@@ -3,11 +3,15 @@
   hosts: targetServer
   tasks:
 
-    - name: Transfer file from sourceServer to targetServer
-      ansible.posix.synchronize:
-        src: "{{ srcFilePath }}"
-        dest: "{{ targetFilePath }}"
-      delegate_to: sourceServer
+    - name: SCP things around because the syncronize module sucks
+      ansible.builtin.shell:
+        cmd: "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR {{ sourceServer }}:{{ srcFilePath }} {{ targetFilePath }}"
+
+    # - name: Transfer file from sourceServer to targetServer
+    #   ansible.posix.synchronize:
+    #     src: "{{ srcFilePath }}"
+    #     dest: "{{ targetFilePath }}"
+    #     compress: "{{ compressTransfer | default(false) }}"
 
     - name: Set the permissions of the freshly copied file
       when: targetModePermissions is defined or targetOwner is defined or targetGroup is defined
@@ -16,4 +20,4 @@
         owner: "{{ targetOwner | default(omit) }}"
         group: "{{ targetGroup | default(omit) }}"
         path: "{{ targetFilePath }}"
-      delegate_to: targetServer
+      #delegate_to: targetServer
