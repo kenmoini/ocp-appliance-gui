@@ -5,7 +5,7 @@
 
     - name: SCP things around because the syncronize module sucks
       ansible.builtin.shell:
-        cmd: "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR {{ inventory_hostname['sourceServer']['ansible_host'] }}:{{ srcFilePath }} {{ targetFilePath }}"
+        cmd: "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR {{ hostvars['sourceServer'].ansible_host }}:{{ srcFilePath }} {{ targetFilePath }}"
 
     # - name: Transfer file from sourceServer to targetServer
     #   ansible.posix.synchronize:
