@@ -1,0 +1,10 @@
+---
+- name: Copies a file from one host to another
+  hosts: targetServer
+  tasks:
+
+    - name: Transfer file from sourceServer to targetServer
+      ansible.builtin.synchronize:
+        src: "{{ srcFilePath }}"
+        dest: "{{ destFilePath }}"
+      delegate_to: sourceServer

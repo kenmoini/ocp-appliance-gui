@@ -78,3 +78,12 @@
     - name: Convert raw to ISO
       ansible.builtin.include_tasks:
         file: tasks/convert-raw-to-iso.yaml
+
+    - name: Pass along information about the appliance build to the next Playbook in the Workflow
+      ansible.builtin.set_stats: 
+        data:
+          release_image_name: "{{ release_image_name }}"
+          appliance_asset_path: "{{ appliance_asset_path }}"
+          appliance_config_path: "{{ appliance_asset_path }}/appliance-config.yaml"
+          appliance_image_iso_path: "{{ appliance_asset_path }}/appliance.iso"
+          appliance_image_raw_path: "{{ appliance_asset_path }}/appliance.raw"
