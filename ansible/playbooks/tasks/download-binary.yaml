@@ -30,6 +30,9 @@
         path: "{{ openshift_binary_path }}/{{ ocp_version }}/openshift-install.tar.gz"
         state: absent
 
+    - name: Rename binary
+      shell: "mv {{ openshift_binary_path }}/{{ ocp_version }}/openshift-install-fips {{ openshift_binary_path }}/{{ ocp_version }}/openshift-install"
+
     - name: Ensure the OpenShift binary is executable
       ansible.builtin.file:
         path: "{{ openshift_binary_path }}/{{ ocp_version }}/openshift-install"
