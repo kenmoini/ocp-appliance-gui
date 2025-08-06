@@ -139,9 +139,19 @@ additionalImages:
 operators:
 {% for operator in operators %}
   - catalog: {{ operator.catalog }}
+    full: false
     packages:
 {% for package in operator.packages %}
       - name: {{ package.name }}
+{% if package.channel is defined %}
+        channel: {{ package.channel }}
+{% endif %}
+{% if package.minVersion is defined %}
+        minVersion: {{ package.minVersion }}
+{% endif %}
+{% if package.maxVersion is defined %}
+        maxVersion: {{ package.maxVersion }}
+{% endif %}
 {% endfor %}
 {% endfor %}
 {% endif %}
