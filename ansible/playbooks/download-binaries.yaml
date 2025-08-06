@@ -1,0 +1,61 @@
+---
+- name: Sets up multiple OpenShift Installer binary versions
+  hosts: all
+
+  vars:
+    openshift_binary_path: /opt/bin/openshift-install
+    openshift_binary_versions:
+      - stable-4.18
+      - stable-4.19
+    openshift_binary_filename: openshift-install-rhel9-amd64.tar.gz
+    openshift_binary_remote_url: https://mirror.openshift.com/pub/openshift-v4/clients/ocp/
+
+  tasks:
+    - name: Ensure the OpenShift binary directory exists
+      ansible.builtin.file:
+        state: directory
+        path: "{{ openshift_binary_path }}"
+        mode: '0755'
+
+    - name: Detect or download OpenShift Installer binaries
+      block:
+        - name: Ensure the versioned OpenShift binary directory exists
+          ansible.builtin.file:
+            state: directory
+            path: "{{ openshift_binary_path }}/{{ version }}"
+            mode: '0755'
+
+        - name: Check for the version 
+          ansible.builtin.stat:
+            path: "{{ openshift_binary_path }}/{{ version }}/openshift-install"
+          register: binary_check
+
+        - name: Download OpenShift Binary if it is missing
+          when: not binary_check.stat.exists
+          ansible.builtin.block:
+            - name: Download OpenShift Installer binary
+              ansible.builtin.get_url:
+                url: "{{ openshift_binary_remote_url }}/{{ version }}/{{ openshift_binary_filename }}"
+                dest: "{{ openshift_binary_path }}/{{ version }}/openshift-install.tar.gz"
+                mode: '0755'
+
+            - name: Extract OpenShift Installer binary
+              ansible.builtin.unarchive:
+                src: "{{ openshift_binary_path }}/{{ version }}/openshift-install.tar.gz"
+                dest: "{{ openshift_binary_path }}/{{ version }}"
+                remote_src: yes
+
+            - name: Remove the downloaded tar file
+              ansible.builtin.file:
+                path: "{{ openshift_binary_path }}/{{ version }}/openshift-install.tar.gz"
+                state: absent
+
+            - name: Ensure the OpenShift binary is executable
+              ansible.builtin.file:
+                path: "{{ openshift_binary_path }}/{{ version }}/openshift-install"
+                mode: '0755'
+
+      loop: "{{ openshift_binary_versions }}"
+      loop_control:
+        loop_var: version
+
