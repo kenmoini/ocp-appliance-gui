@@ -143,7 +143,8 @@ operators:
 {% for package in operator.packages %}
       - name: {{ package.name }}
 {% if package.channel is defined %}
-        channel: {{ package.channel }}
+        channels:
+        - name: {{ package.channel }}
 {% endif %}
 {% if package.minVersion is defined %}
         minVersion: {{ package.minVersion }}
