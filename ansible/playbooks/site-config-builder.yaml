@@ -276,3 +276,11 @@
         src: agent-config.yaml.j2
         dest: "{{ site_config_base_path }}/{{ cluster_name }}.{{ base_domain }}/agent-config.yaml"
         mode: '0644'
+
+    - name: Create the Agent ISO
+      ansible.builtin.command:
+        cmd: "openshift-install agent create config-image --dir={{ cluster_name }}.{{ base_domain }}"
+      args:
+        chdir: "{{ site_config_base_path }}"
+      register: agent_iso_creation
+      changed_when: agent_iso_creation.rc == 0
