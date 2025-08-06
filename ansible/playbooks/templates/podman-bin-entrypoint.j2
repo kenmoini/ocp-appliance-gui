@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# This script is used to wrap Podman execution with some additional parameters.
+
+# Set the Podman binary path
+PODMAN_BIN=${PODMAN_BIN:-"/usr/bin/podman"}
+
+PODMAN_RUN_EXTRA_ARGS=${PODMAN_RUN_EXTRA_ARGS:-"-v /etc/pki:/etc/pki:ro -v /etc/containers/registries.conf:/etc/containers/registries.conf:ro"}
+
+# Switch out between the Podman run and other commands
+if [[ "$1" == "run" ]]; then
+    shift
+    exec $PODMAN_BIN run "$@"
+else
+    exec $PODMAN_BIN "$@"
+fi

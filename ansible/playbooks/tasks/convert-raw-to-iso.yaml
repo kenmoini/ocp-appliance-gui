@@ -5,8 +5,8 @@
     cmd: >
       podman run --rm -it --privileged
       --name appliance-converter
-      --net=host
-      -v /etc/pki:/etc/pki:ro
+      --net=host{{ ' -v ' + appliance_asset_path + '/podman-wrapper:/root/.local/bin/podman' if disconnected_mirrors is defined else '' }}
+      -v /etc/pki:/etc/pki:ro{{ ' -v ' + appliance_asset_path + '/registries.conf:/etc/containers/registries.conf:ro' if disconnected_mirrors is defined else '' }}
       -v {{ appliance_graph_path }}:/var/lib/containers:Z
       -v {{ appliance_asset_path }}:/assets:Z
       {{ appliance_image }} build iso --target-device {{ target_boot_device }} --post-script post.sh --log-level debug

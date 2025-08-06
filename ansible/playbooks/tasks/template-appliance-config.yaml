@@ -3,3 +3,16 @@
   ansible.builtin.template:
     src: appliance-config.yaml.j2
     dest: "{{ output_appliance_config_path }}"
+
+- name: Create Disconnected Registries Configuration
+  when: disconnected_mirrors is defined
+  ansible.builtin.template:
+    src: registries.conf.j2
+    dest: "{{ appliance_asset_path }}/registries.conf"
+
+- name: Create Podman Entrypoint script
+  when: disconnected_mirrors is defined
+  ansible.builtin.template:
+    src: podman-bin-entrypoint.j2
+    dest: "{{ appliance_asset_path }}/podman-wrapper"
+    mode: '0755'

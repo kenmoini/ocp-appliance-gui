@@ -24,6 +24,14 @@
     createPinnedImageSets: false
     enableInteractiveFlow: false
 
+    #disconnected_mirrors:
+    #  - source: "quay.io"
+    #    target: "quay-quay-hub-infra.apps.acm.hpe-openshift.lab/quay-io"
+    #  - source: "registry.redhat.io"
+    #    target: "quay-quay-hub-infra.apps.acm.hpe-openshift.lab/registry-redhat-io"
+    #  - source: "registry.connect.redhat.com"
+    #    target: "quay-quay-hub-infra.apps.acm.hpe-openshift.lab/registry-connect-redhat-com"
+
   tasks:
 
     - name: Check if required inputs are set
