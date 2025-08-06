@@ -139,7 +139,6 @@ additionalImages:
 operators:
 {% for operator in operators %}
   - catalog: {{ operator.catalog }}
-    full: false
     packages:
 {% for package in operator.packages %}
       - name: {{ package.name }}
