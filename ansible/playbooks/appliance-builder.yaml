@@ -6,7 +6,7 @@
     #release_image_name: 4.19-standard
     #pullSecret: '{{ lookup("file", "/opt/.pull-secret.json") }}'
     #pull_secret_path: /opt/.pull-secret.json
-    #appliance_bundle_type: base # base|virt|management|ai|sno|developer
+    #appliance_bundle_type: base # base|virt|management|ai|...
 
     # Optional Inputs
     openshift_version: '4.19'
@@ -31,6 +31,10 @@
         that:
           - release_image_name is defined
 
+    - name: Split the openshift_version and reassemble with only the x.y portion
+      ansible.builtin.set_fact:
+        openshift_version_major_minor: "{{ openshift_version.split('.')[:2] | join('.') }}"
+
     - name: Set facts for Appliance Bundle Types
       when: appliance_bundle_type is defined
       block:
@@ -38,7 +42,7 @@
           when: appliance_bundle_type == 'virt'
           ansible.builtin.set_fact:
             operators:
-              - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.19
+              - catalog: "registry.redhat.io/redhat/redhat-operator-index:v{{ openshift_version_major_minor }}"
                 packages:
                   - name: local-storage-operator
                   - name: metallb-operator
@@ -56,7 +60,7 @@
           when: appliance_bundle_type == 'management'
           ansible.builtin.set_fact:
             operators:
-              - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.19
+              - catalog: "registry.redhat.io/redhat/redhat-operator-index:v{{ openshift_version_major_minor }}"
                 packages:
                   - name: advanced-cluster-management
                   - name: multicluster-engine
@@ -69,21 +73,6 @@
                   - name: metallb-operator
                   - name: ocs-client-operator
                   - name: odf-operator
-                  - name: redhat-oadp-operator
-                  - name: kubevirt-hyperconverged
-                  - name: fence-agents-remediation
-                  - name: node-maintenance-operator
-
-        - name: Transform variables based on bundle type - sno
-          when: appliance_bundle_type == 'sno'
-          ansible.builtin.set_fact:
-            operators:
-              - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.19
-                packages:
-                  - name: openshift-gitops-operator
-                  - name: rhacs-operator
-                  - name: lvms-operator
-                  - name: metallb-operator
                   - name: redhat-oadp-operator
                   - name: kubevirt-hyperconverged
                   - name: fence-agents-remediation
