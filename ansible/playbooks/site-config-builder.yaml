@@ -1,0 +1,274 @@
+---
+- name: Build per-site configuration for OpenShift Appliance deployments
+  hosts: all
+
+  vars:
+
+    #======================================================================================
+    # Required Inputs
+    #======================================================================================
+    cluster_name: ocp
+    base_domain: hpe-openshift.lab
+    control_plane_replicas: 3
+    app_node_replicas: 0
+    platform_type: baremetal
+    api_vips:
+      - 10.10.69.102
+    app_vips:
+      - 10.10.69.103
+
+    dns_servers:
+      - 10.10.0.207
+    dns_search_domains:
+      - hpe-openshift.lab
+
+    nodes:
+      - hostname: sut204
+        role: master
+        interfaces:
+          - name: ens1f0np0
+            mac_address: 00:62:0b:12:42:10
+          - name: ens1f0np1
+            mac_address: 00:62:0b:12:42:11
+          - name: ens1f0np2
+            mac_address: 00:62:0b:12:42:12
+          - name: ens1f0np3
+            mac_address: 00:62:0b:12:42:13
+        networkConfig:
+          interfaces:
+            - name: ens1f0np0
+              type: ethernet
+              state: up
+              mac-address: 00:62:0b:12:42:10
+              ipv4:
+                enabled: true
+                address:
+                  - ip: 10.10.0.204
+                    prefix-length: 16
+                dhcp: false
+            - name: ens1f0np1
+              type: ethernet
+              state: down
+              mac-address: 00:62:0b:12:42:11
+            - name: ens1f0np2
+              type: ethernet
+              state: down
+              mac-address: 00:62:0b:12:42:12
+            - name: ens1f0np3
+              type: ethernet
+              state: down
+              mac-address: 00:62:0b:12:42:13
+          routes:
+            config:
+              - destination: 0.0.0.0/0
+                next-hop-address: 10.10.0.1
+                next-hop-interface: ens1f0np0
+                table-id: 254
+
+      - hostname: sut205
+        role: master
+        interfaces:
+          - name: ens1f0np0
+            mac_address: 00:62:0b:11:56:c0
+          - name: ens1f0np1
+            mac_address: 00:62:0b:11:56:c1
+          - name: ens1f0np2
+            mac_address: 00:62:0b:11:56:c2
+          - name: ens1f0np3
+            mac_address: 00:62:0b:11:56:c3
+        networkConfig:
+          interfaces:
+            - name: ens1f0np0
+              type: ethernet
+              state: up
+              mac-address: 00:62:0b:11:56:c0
+              ipv4:
+                enabled: true
+                address:
+                  - ip: 10.10.0.205
+                    prefix-length: 16
+                dhcp: false
+            - name: ens1f0np1
+              type: ethernet
+              state: down
+              mac-address: 00:62:0b:11:56:c1
+            - name: ens1f0np2
+              type: ethernet
+              state: down
+              mac-address: 00:62:0b:11:56:c2
+            - name: ens1f0np3
+              type: ethernet
+              state: down
+              mac-address: 00:62:0b:11:56:c3
+          routes:
+            config:
+              - destination: 0.0.0.0/0
+                next-hop-address: 10.10.0.1
+                next-hop-interface: ens1f0np0
+                table-id: 254
+
+      - hostname: sut206
+        role: master
+        interfaces:
+          - name: ens1f0np0
+            mac_address: 00:62:0b:12:23:60
+          - name: ens1f0np1
+            mac_address: 00:62:0b:12:23:61
+          - name: ens1f0np2
+            mac_address: 00:62:0b:12:23:62
+          - name: ens1f0np3
+            mac_address: 00:62:0b:12:23:63
+        networkConfig:
+          interfaces:
+            - name: ens1f0np0
+              type: ethernet
+              state: up
+              mac-address: 00:62:0b:12:23:60
+              ipv4:
+                enabled: true
+                address:
+                  - ip: 10.10.0.206
+                    prefix-length: 16
+                dhcp: false
+            - name: ens1f0np1
+              type: ethernet
+              state: down
+              mac-address: 00:62:0b:12:23:61
+            - name: ens1f0np2
+              type: ethernet
+              state: down
+              mac-address: 00:62:0b:12:23:62
+            - name: ens1f0np3
+              type: ethernet
+              state: down
+              mac-address: 00:62:0b:12:23:63
+          routes:
+            config:
+              - destination: 0.0.0.0/0
+                next-hop-address: 10.10.0.1
+                next-hop-interface: ens1f0np0
+                table-id: 254
+
+    #======================================================================================
+    # Defaults
+    #======================================================================================
+    # cluster_network_cidr is the overall CIDR space for the Pods in the cluster
+    cluster_network_cidr: 10.128.0.0/14
+    # cluster_network_host_prefix is the number of bits in the cluster_network_cidr that are for each node
+    cluster_network_host_prefix: 23
+
+    # service_network_cidrs is the CIDR space for the Services in the cluster (ClusterIP/NodePort/LoadBalancer)
+    service_network_cidrs:
+      - 172.30.0.0/16
+
+    # machine_network_cidr is the CIDR space for the Machines in the cluster
+    machine_network_cidrs:
+      - 192.168.60.0/23
+
+    # networkType is the type of network to use for the cluster (OpenShiftSDN, OVNKubernetes)
+    network_type: OVNKubernetes
+
+    #ntp_servers:
+    #  - 0.pool.ntp.org
+    #  - 1.pool.ntp.org
+    #  - 2.pool.ntp.org
+    #  - 3.pool.ntp.org
+
+    fipsMode: false
+    
+    # Proxy Configuration
+    #proxy:
+    #  http_proxy: ""
+    #  https_proxy: ""
+    #  no_proxy: []
+
+    # Additional Trusted Root CA
+    additional_trust_bundle_policy: Always
+    additional_trust_bundle: |
+      -----BEGIN CERTIFICATE-----
+      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
+      ljV0Xlt3k5KGNFHY15DCtd64/bhB9sGuucvnRg==
+      -----END CERTIFICATE-----
+
+    site_config_base_path: /opt/site-config-agent-builds
+
+  tasks:
+
+    - name: Check if required inputs are set
+      ansible.builtin.assert:
+        that:
+          - cluster_name is defined
+          - base_domain is defined
+          - control_plane_replicas is defined
+          - app_node_replicas is defined
+          - platform_type is defined
+
+    - name: Read in the pull secret if it is defined as a file
+      when: pull_secret_path is defined
+      ansible.builtin.shell:
+        cmd: "cat {{ pull_secret_path }}"
+      register: pull_secret_content
+      no_log: true
+
+    - name: Create working directories - Base Path
+      ansible.builtin.file:
+        state: directory
+        path: "{{ site_config_base_path }}"
+        mode: '0755'
+
+    - name: Create working directories - Site Config
+      ansible.builtin.file:
+        state: directory
+        path: "{{ site_config_base_path }}/{{ cluster_name }}.{{ base_domain }}"
+        mode: '0755'
+
+    - name: Template the install-config.yml file
+      ansible.builtin.template:
+        src: install-config.yaml.j2
+        dest: "{{ site_config_base_path }}/{{ cluster_name }}.{{ base_domain }}/install-config.yaml"
+        mode: '0644'
+
+    - name: Template the agent-config.yml file
+      ansible.builtin.template:
+        src: agent-config.yaml.j2
+        dest: "{{ site_config_base_path }}/{{ cluster_name }}.{{ base_domain }}/agent-config.yaml"
+        mode: '0644'

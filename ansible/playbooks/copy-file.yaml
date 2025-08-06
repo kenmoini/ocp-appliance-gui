@@ -7,6 +7,7 @@
       ansible.builtin.shell:
         cmd: "scp -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR {{ hostvars['sourceServer'].ansible_host }}:{{ srcFilePath }} {{ targetFilePath }}"
 
+    # https://stackoverflow.com/questions/25505146/how-can-i-copy-files-between-two-managed-nodes-using-ansible
     # - name: Transfer file from sourceServer to targetServer
     #   ansible.posix.synchronize:
     #     src: "{{ srcFilePath }}"

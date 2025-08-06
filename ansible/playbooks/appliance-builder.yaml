@@ -87,3 +87,4 @@
           appliance_config_path: "{{ appliance_asset_path }}/appliance-config.yaml"
           appliance_image_iso_path: "{{ appliance_asset_path }}/appliance.iso"
           appliance_image_raw_path: "{{ appliance_asset_path }}/appliance.raw"
+          openshift_version: "{{ openshift_version }}"
