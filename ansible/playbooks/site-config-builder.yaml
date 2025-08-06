@@ -242,6 +242,8 @@
     openshift_binary_filename: openshift-install-rhel9-amd64.tar.gz
     openshift_binary_remote_url: https://mirror.openshift.com/pub/openshift-v4/clients/ocp/
 
+    check_for_packages: true
+
   tasks:
 
     - name: Check if required inputs are set
@@ -254,6 +256,7 @@
           - platform_type is defined
 
     - name: Ensure required packages are installed
+      when: check_for_packages|bool
       ansible.builtin.package:
         name:
           - nmstate
@@ -299,3 +302,12 @@
         chdir: "{{ site_config_base_path }}"
       register: agent_iso_creation
       changed_when: agent_iso_creation.rc == 0
+
+    - name: Pass along information about the appliance build to the next Playbook in the Workflow
+      ansible.builtin.set_stats: 
+        data:
+          openshift_version: "{{ openshift_version }}"
+          cluster_name: "{{ cluster_name }}"
+          base_domain: "{{ base_domain }}"
+          site_config_base_path: "{{ site_config_base_path }}"
+          site_config_iso_path: "{{ site_config_base_path }}/{{ cluster_name }}.{{ base_domain }}/agentconfig.noarch.iso"
