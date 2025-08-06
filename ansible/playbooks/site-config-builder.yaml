@@ -253,6 +253,14 @@
           - app_node_replicas is defined
           - platform_type is defined
 
+    - name: Ensure required packages are installed
+      ansible.builtin.package:
+        name:
+          - nmstate
+          - tar
+          - unzip
+        state: present
+
     - name: Read in the pull secret if it is defined as a file
       when: pull_secret_path is defined
       ansible.builtin.shell:
