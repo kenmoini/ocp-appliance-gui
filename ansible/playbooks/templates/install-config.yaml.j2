@@ -40,8 +40,18 @@ platform:
 {% endfor %}
 {% endif %}
 fips: {{ 'true' if fipsMode|bool else 'false' }}
-pullSecret: '{{ lookup('file', pull_secret_path) }}'
-sshKey: {{ lookup('file', ssh_public_key_path) }}
+{% if pull_secret_content is defined %}
+pullSecret: '{{ pull_secret_content.stdout | trim }}'
+{% else %}
+{% if pullSecret is defined %}
+pullSecret: '{{ pullSecret }}'
+{% else %}
+pullSecret: ''
+{% endif %}
+{% endif %}
+{% if ssh_pub_key is defined %}
+sshKey:  {{ ssh_pub_key }}
+{% endif %}
 {% if additional_trust_bundle is defined %}
 additionalTrustBundlePolicy: {{ additional_trust_bundle_policy }}
 additionalTrustBundle: |

@@ -7,6 +7,8 @@
     #======================================================================================
     # Required Inputs
     #======================================================================================
+    pull_secret_path: /opt/.pull-secret.json
+    ssh_pub_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDB2epjx0h2OoigzFy62og3OnCmhs7oUU93/qGew86ogPycEYxU4DOXZABSmSl+8jqlSIAhPzVi+Mcc4dU8lWdVh0l5onxE6jpVMoxb+4mHG565MezdrOsQ9Lbg/ye00K/20C/W99NzNYq3fM9r6bueeQXV8k0ZPttSnt1sC86aF7H0x6ZD3ONxIvOF0EbJ3152ghe3DJcqQsQf/aGEzo34dPnDod1sUavHH9yxMbifmyH0FwEW+pZ3KB917AlfPES5VJiFiBnwMqxUF4B0WOhWzVSTM6VvoYS7pyWSXupuwNJgtOC+jV4K5k+G8xqVnBdEldUSRmyVjLteiv2jZuHJiSKKjyxw2KxruSSXwDHYiomLSY7sXYeG0v/sgu2SFeC/szJlpDzfBh1fSWXxdRrj9hNrQWlYMJLOy+XYY4YB8n9DsaC/KT2q2yxGpp0B+CWz/UpESVFnLzsGE2PFvH2TZQiV1JX3o9QUJGaLcCjiwOaqYzLQ4+nAeOB2pmZfC9SrM7kY8MLiCkMfSrV3ggVDeDoTeZFpb6qkqAfWrjMxmmJ2xq6StNk6Tfr5BHmAwispjxyXg8OwODEA+/tfLF9nKUHKTCybzj04ebSLXFyau2uEXcn/ctxSPCmXAH+3L4UVQM8z1pppCBhabdMiEBTBtLpT332swHwMxo+JbrHdrw==
     cluster_name: ocp
     base_domain: hpe-openshift.lab
     control_plane_replicas: 3
