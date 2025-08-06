@@ -19,6 +19,8 @@
     app_vips:
       - 10.10.69.103
 
+    rendezvous_ip: 10.10.0.204
+
     dns_servers:
       - 10.10.0.207
     dns_search_domains:
