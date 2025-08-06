@@ -12,7 +12,7 @@
 
 - name: Download OpenShift Binary if it is missing
   when: not binary_check.stat.exists
-  ansible.builtin.block:
+  block:
     - name: Download OpenShift Installer binary
       ansible.builtin.get_url:
         url: "{{ openshift_binary_remote_url }}/{{ ocp_version }}/{{ openshift_binary_filename }}"
