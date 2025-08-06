@@ -53,16 +53,29 @@
               - catalog: "registry.redhat.io/redhat/redhat-operator-index:v{{ openshift_version_major_minor }}"
                 packages:
                   - name: local-storage-operator
+                    channel: stable
                   - name: metallb-operator
+                    channel: stable
                   - name: mtv-operator
+                    channel: release-v2.9
                   - name: ocs-client-operator
+                    channel: "stable-{{ openshift_version_major_minor }}"
                   - name: odf-operator
+                    channel: "stable-{{ openshift_version_major_minor }}"
                   - name: redhat-oadp-operator
+                    channel: stable
+                  - name: kubernetes-nmstate-operator
+                    channel: stable
                   - name: kubevirt-hyperconverged
+                    channel: stable
                   - name: fence-agents-remediation
+                    channel: stable
                   - name: node-maintenance-operator
+                    channel: stable
                   - name: rhacs-operator
+                    channel: stable
                   - name: openshift-gitops-operator
+                    channel: latest
 
         - name: Transform variables based on bundle type - management
           when: appliance_bundle_type == 'management'
@@ -71,20 +84,35 @@
               - catalog: "registry.redhat.io/redhat/redhat-operator-index:v{{ openshift_version_major_minor }}"
                 packages:
                   - name: advanced-cluster-management
+                    channel: release-2.13
                   - name: multicluster-engine
+                    channel: stable-2.8
                   - name: ansible-automation-platform-operator
+                    channel: stable-2.5-cluster-scoped
                   - name: cincinnati-operator
+                    channel: v1
                   - name: openshift-gitops-operator
+                    channel: latest
                   - name: openshift-pipelines-operator-rh
+                    channel: latest
                   - name: rhacs-operator
+                    channel: stable
                   - name: local-storage-operator
+                    channel: stable
                   - name: metallb-operator
+                    channel: stable
                   - name: ocs-client-operator
+                    channel: "stable-{{ openshift_version_major_minor }}"
                   - name: odf-operator
+                    channel: "stable-{{ openshift_version_major_minor }}"
                   - name: redhat-oadp-operator
+                    channel: stable
                   - name: kubevirt-hyperconverged
+                    channel: stable
                   - name: fence-agents-remediation
+                    channel: stable
                   - name: node-maintenance-operator
+                    channel: stable
 
     - name: Read in the pull secret if it is defined as a file
       when: pull_secret_path is defined
