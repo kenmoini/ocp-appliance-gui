@@ -8,7 +8,7 @@
       - stable-4.18
       - stable-4.19
     openshift_binary_filename: openshift-install-rhel9-amd64.tar.gz
-    openshift_binary_remote_url: https://mirror.openshift.com/pub/openshift-v4/clients/ocp/
+    openshift_binary_remote_url: https://mirror.openshift.com/pub/openshift-v4/clients/ocp
 
   tasks:
     - name: Ensure the OpenShift binary directory exists
