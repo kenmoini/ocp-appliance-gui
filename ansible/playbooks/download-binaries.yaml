@@ -18,7 +18,8 @@
         mode: '0755'
 
     - name: Detect or download OpenShift Installer binaries
-      ansible.builtin.include_tasks: tasks/download-binary.yaml
+      ansible.builtin.include_tasks:
+        file: tasks/download-binary.yaml
       loop: "{{ openshift_binary_versions }}"
       loop_control:
         loop_var: version
