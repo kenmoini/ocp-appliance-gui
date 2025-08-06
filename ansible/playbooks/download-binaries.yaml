@@ -22,5 +22,5 @@
         file: tasks/download-binary.yaml
       loop: "{{ openshift_binary_versions }}"
       loop_control:
-        loop_var: version
+        loop_var: ocp_version
 
