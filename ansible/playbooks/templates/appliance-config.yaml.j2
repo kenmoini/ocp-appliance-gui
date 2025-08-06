@@ -134,27 +134,48 @@ additionalImages:
 # Operators to be included in the appliance disk image.
 # See examples in https://github.com/openshift/oc-mirror/blob/main/docs/imageset-config-ref.yaml.
 # [Optional]
+{% if operators is defined %}
+{% if operators | length > 0 %}
+operators:
+{% for operator in operators %}
+  - catalog: {{ operator.catalog }}
+    packages:
+{% for package in operator.packages %}
+      - name: {{ package.name }}
+{% endfor %}
+{% endfor %}
+{% endif %}
+{% endif %}
+
 #operators:
 #- catalog: registry.redhat.io/redhat/redhat-operator-index:v4.19
 #  packages:
-#    - name: advanced-cluster-management
-#    - name: ansible-automation-platform-operator
-#    - name: cincinnati-operator
-#    - name: devspaces
-#    - name: devworkspace-operator
-#    - name: rhods-operator
+# Virt Bundle
 #    - name: local-storage-operator
-#    - name: lvms-operator
 #    - name: metallb-operator
 #    - name: mtv-operator
-#    - name: multicluster-engine
 #    - name: ocs-client-operator
 #    - name: odf-operator
-#    - name: openshift-gitops-operator
-#    - name: openshift-pipelines-operator-rh
 #    - name: redhat-oadp-operator
-#    - name: rhacs-operator
 #    - name: kubevirt-hyperconverged
-#    - name: nfd
 #    - name: fence-agents-remediation
 #    - name: node-maintenance-operator
+# SNO Storage
+#    - name: lvms-operator
+# Management Bundle
+#    - name: advanced-cluster-management
+#    - name: multicluster-engine
+#    - name: ansible-automation-platform-operator
+#    - name: cincinnati-operator
+#    - name: openshift-gitops-operator
+#    - name: openshift-pipelines-operator-rh
+#    - name: rhacs-operator
+# Developer Bundle
+#    - name: devspaces
+#    - name: devworkspace-operator
+# AI + GPU Bundle
+#    - name: rhods-operator
+#    - name: nfd
+#- catalog: registry.redhat.io/redhat/certified-operator-index:v4.19
+#  packages:
+#    - name: nvidia-gpu-operator
