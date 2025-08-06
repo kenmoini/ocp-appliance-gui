@@ -22,6 +22,10 @@
 
     rendezvous_ip: 10.10.0.204
 
+    # machine_network_cidr is the CIDR space for the Machines in the cluster
+    machine_network_cidrs:
+      - 10.10.0.0/16
+
     dns_servers:
       - 10.10.0.207
     dns_search_domains:
@@ -165,10 +169,6 @@
     # service_network_cidrs is the CIDR space for the Services in the cluster (ClusterIP/NodePort/LoadBalancer)
     service_network_cidrs:
       - 172.30.0.0/16
-
-    # machine_network_cidr is the CIDR space for the Machines in the cluster
-    machine_network_cidrs:
-      - 192.168.60.0/23
 
     # networkType is the type of network to use for the cluster (OpenShiftSDN, OVNKubernetes)
     network_type: OVNKubernetes
