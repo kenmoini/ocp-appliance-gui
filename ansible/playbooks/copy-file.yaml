@@ -12,6 +12,7 @@
     #     src: "{{ srcFilePath }}"
     #     dest: "{{ targetFilePath }}"
     #     compress: "{{ compressTransfer | default(false) }}"
+    #   delegate_to: sourceServer
 
     - name: Set the permissions of the freshly copied file
       when: targetModePermissions is defined or targetOwner is defined or targetGroup is defined
