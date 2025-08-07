@@ -10,7 +10,7 @@ PODMAN_RUN_EXTRA_ARGS=${PODMAN_RUN_EXTRA_ARGS:-"-v /etc/pki:/etc/pki:ro -v /etc/
 # Switch out between the Podman run and other commands
 if [[ "$1" == "run" ]]; then
     shift
-    exec $PODMAN_BIN run "$@"
+    exec $PODMAN_BIN run ${PODMAN_RUN_EXTRA_ARGS} "$@"
 else
     exec $PODMAN_BIN "$@"
 fi
