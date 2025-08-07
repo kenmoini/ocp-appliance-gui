@@ -25,12 +25,16 @@
     enableInteractiveFlow: false
 
     #disconnected_mirrors:
+    #  - source: "quay.io/openshift-release-dev/ocp-release"
+    #    target: "harbor.hpe-openshift.lab/quay-io/openshift-release-dev/ocp-release"
+    #  - source: "quay.io/openshift-release-dev/ocp-v4.0-art-dev"
+    #    target: "harbor.hpe-openshift.lab/quay-io/openshift-release-dev/ocp-v4.0-art-dev"
     #  - source: "quay.io"
-    #    target: "quay-quay-hub-infra.apps.acm.hpe-openshift.lab/quay-io"
+    #    target: "harbor.hpe-openshift.lab/quay-io"
     #  - source: "registry.redhat.io"
-    #    target: "quay-quay-hub-infra.apps.acm.hpe-openshift.lab/registry-redhat-io"
+    #    target: "harbor.hpe-openshift.lab/registry-redhat-io"
     #  - source: "registry.connect.redhat.com"
-    #    target: "quay-quay-hub-infra.apps.acm.hpe-openshift.lab/registry-connect-redhat-com"
+    #    target: "harbor.hpe-openshift.lab/registry-connect-redhat-com"
 
   tasks:
 
