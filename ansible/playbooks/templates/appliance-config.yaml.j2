@@ -104,7 +104,7 @@ createPinnedImageSets: {{ 'true' if createPinnedImageSets else 'false' }}
 # Note: 'fips' should be enabled also in install-config.yaml.
 # Default: false
 # [Optional]
-enableFips: {{ 'false' if fipsMode == "Disabled" else 'true' }}
+enableFips: {{ 'true' if fipsMode|bool else 'false' }}
 
 # Enable the interactive installation flow.
 # Should be enabled to provide cluster configuration through the web UI

@@ -57,7 +57,7 @@
                   - name: metallb-operator
                     channel: stable
                   - name: mtv-operator
-                    channel: release-v2.9
+                    channel: "{{ 'release-v2.9' if openshift_version_major_minor == '4.19' else 'release-v2.8' }}"
                   - name: ocs-client-operator
                     channel: "stable-{{ openshift_version_major_minor }}"
                   - name: odf-operator
