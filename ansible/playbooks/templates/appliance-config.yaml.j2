@@ -11,7 +11,7 @@ ocpRelease:
   # (in case of major.minor, latest patch version will be used)
   # If the specified version is not yet available, the latest supported version will be used.
   # Supported versions: 4.14-4.19
-  version: {{ ocpVersion | default('4.19') }}
+  version: {{ openshift_version | default('4.19') }}
 
   # OCP release update channel: stable|fast|eus|candidate
   # Default: stable
