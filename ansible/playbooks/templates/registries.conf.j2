@@ -31,7 +31,7 @@ short-name-mode = "enforcing"
   location = "{{ mirror.source }}"
   mirror-by-digest-only = false
   [[registry.mirror]]
-    location = "{{ mirror.mirror }}"
+    location = "{{ mirror.target }}"
 
 {% endfor %}
 {% endif %}
