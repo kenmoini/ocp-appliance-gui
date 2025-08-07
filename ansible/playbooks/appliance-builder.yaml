@@ -64,8 +64,8 @@
                     channel: "stable-{{ openshift_version_major_minor }}"
                   - name: redhat-oadp-operator
                     channel: stable
-                  - name: kubernetes-nmstate-operator
-                    channel: stable
+                  #- name: kubernetes-nmstate-operator
+                  #  channel: stable
                   - name: kubevirt-hyperconverged
                     channel: stable
                   - name: fence-agents-remediation
