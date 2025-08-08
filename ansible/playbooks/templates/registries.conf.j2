@@ -27,11 +27,11 @@ short-name-mode = "enforcing"
 {% if disconnected_mirrors|length > 0 %}
 {% for mirror in disconnected_mirrors %}
 [[registry]]
-  prefix = ""
   location = "{{ mirror.source }}"
   mirror-by-digest-only = false
   [[registry.mirror]]
     location = "{{ mirror.target }}"
+    insecure = true
 
 {% endfor %}
 {% endif %}

@@ -46,19 +46,19 @@ pullSecret: '{{ pullSecret }}'
 
 # Public SSH key for accessing the appliance during the bootstrap phase
 # [Optional]
-{%- if publicKey is defined and publicKey|length > 0 %}
+{% if publicKey is defined and publicKey|length > 0 %}
 sshKey: {{ publicKey }}
-{%- else %}
+{% else %}
 # sshKey: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCy...
-{%- endif %}
+{% endif %}
 
 # Password of user 'core' for connecting from console
 # [Optional]
-{%- if coreUserPass is defined and coreUserPass|length > 0 %}
+{% if coreUserPass is defined and coreUserPass|length > 0 %}
 userCorePass: {{ coreUserPass }}
-{%- else %}
+{% else %}
 # userCorePass: password
-{%- endif %}
+{% endif %}
 
 # Local image registry details (used when building the appliance)
 # Note: building an image internally by default.
