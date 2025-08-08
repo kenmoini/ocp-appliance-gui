@@ -176,3 +176,4 @@
           appliance_image_iso_path: "{{ appliance_asset_path }}/appliance.iso"
           appliance_image_raw_path: "{{ appliance_asset_path }}/appliance.raw"
           openshift_version: "{{ openshift_version }}"
+          appliance_bundle_type: "{{ appliance_bundle_type | default('base') }}"

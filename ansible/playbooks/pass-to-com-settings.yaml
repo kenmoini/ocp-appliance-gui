@@ -1,0 +1,18 @@
+---
+- name: Prepare to pass off to HPE COM
+  hosts: all
+
+  vars:
+    continueWorkflow: true
+    httpServerBase: http://10.10.0.207:8085
+
+  tasks:
+    - name: Set/Transform variables
+      when: continueWorkflow | bool
+      block:
+      - name: Pass vars
+        ansible.builtin.set_stats:
+          data:
+            iso_local_image_path: "{{ httpServerBase }}/{{ release_image_name }}.iso"
+            hpegl_setting_name: "OpenShift-{{ openshift_version }}-{{ appliance_bundle_type | default('base') }}"
+            setting_description: "OpenShift v{{ openshift_version }} Appliance Installer - {{ appliance_bundle_type | default('base') }}"
