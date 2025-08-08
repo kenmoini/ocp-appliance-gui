@@ -1,0 +1,18 @@
+---
+- name: Prepare to pass off to HPE COM for per-site config boot
+  hosts: all
+
+  vars:
+    continueWorkflow: true
+    httpServerBase: http://10.10.0.207:8085
+
+  tasks:
+    - name: Set/Transform variables
+      when: continueWorkflow | bool
+      block:
+      - name: Pass vars
+        ansible.builtin.set_stats:
+          data:
+            iso_local_image_path: "{{ httpServerBase }}/{{ cluster_name }}.{{ base_domain }}.iso"
+            hpegl_setting_name: "Site-OCP-{{ openshift_version }}-{{ cluster_name }}.{{ base_domain }}"
+            setting_description: "OpenShift v{{ openshift_version }} {{ cluster_name }}.{{ base_domain }} Cluster Configuration"
