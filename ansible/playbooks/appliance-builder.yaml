@@ -137,9 +137,12 @@
 
     - name: Start the services
       ansible.builtin.service:
-        name: ["podman.socket", "cockpit.socket"]
+        name: "{{ svc_item }}"
         enabled: true
         state: started
+      loop: ["podman.socket", "cockpit.socket"]
+      loop_control:
+        loop_var: svc_item
 
     - name: Create working directories - Container Graph
       ansible.builtin.file:
