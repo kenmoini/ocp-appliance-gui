@@ -187,21 +187,21 @@
       register: appliance_iso_check
 
     - name: Build Appliance image
-      when: not appliance_raw_check.exists
+      when: not appliance_raw_check.stat.exists
       ansible.builtin.include_tasks:
         file: tasks/build-appliance-image.yaml
 
     - name: Convert raw to ISO
       when:
         - target_boot_device is defined
-        - not appliance_iso_check.exists
+        - not appliance_iso_check.stat.exists
       ansible.builtin.include_tasks:
         file: tasks/convert-raw-to-iso.yaml
 
     - name: Convert raw to live-iso
       when:
         - create_live_iso
-        - not appliance_iso_check.exists
+        - not appliance_iso_check.stat.exists
       ansible.builtin.include_tasks:
         file: tasks/convert-raw-to-live-iso.yaml
 
