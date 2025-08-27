@@ -5,14 +5,31 @@
     dest: "{{ appliance_asset_path }}/post.sh"
     mode: '0755'
 
+- name: Set base additional params
+  ansible.builtin.set_fact:
+    podman_run_args: ""
+
+- name: Set base additional params for disconnected mirrors
+  when: disconnected_mirrors is defined
+  ansible.builtin.set_fact:
+    podman_run_args: "{{ podman_run_args }} -v {{ appliance_asset_path }}/podman-wrapper:/root/.local/bin/podman -v {{ appliance_asset_path }}/registries.conf:/etc/containers/registries.conf:ro"
+
+- name: Set base additional params for passing system roots
+  when: podman_pass_system_roots
+  ansible.builtin.set_fact:
+    podman_run_args: "{{ podman_run_args }} -v /etc/pki:/etc/pki:ro"
+
+- name: Set base additional params for persistent podman local graph
+  when: podman_persist_local_graph
+  ansible.builtin.set_fact:
+    podman_run_args: "{{ podman_run_args }} -v {{ appliance_graph_path }}:/var/lib/containers:Z"
+
 - name: Build Appliance image
   ansible.builtin.shell:
     creates: "{{ appliance_asset_path }}/appliance.raw"
     cmd: >
       podman run --rm -it --privileged
       --name appliance-builder
-      --net=host{{ ' -v ' + appliance_asset_path + '/podman-wrapper:/root/.local/bin/podman' if disconnected_mirrors is defined else '' }}
-      -v /etc/pki:/etc/pki:ro{{ ' -v ' + appliance_asset_path + '/registries.conf:/etc/containers/registries.conf:ro' if disconnected_mirrors is defined else '' }}
-      -v {{ appliance_graph_path }}:/var/lib/containers:Z
+      --net=host{{ podman_run_args }}
       -v {{ appliance_asset_path }}:/assets:Z
       {{ appliance_image }} build --log-level debug
