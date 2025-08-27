@@ -72,3 +72,24 @@
       ansible.builtin.file:
         path: "{{ openshift_binary_path }}/{{ ocp_version }}/kubectl"
         mode: '0755'
+
+- name: Define the alternatives for openshift-install
+  community.general.alternatives:
+    name: openshift-install
+    path: "{{ openshift_binary_path }}/{{ ocp_version }}/openshift-install"
+    link: /usr/local/bin/openshift-install
+    state: present
+
+- name: Define the alternatives for oc
+  community.general.alternatives:
+    name: oc
+    path: "{{ openshift_binary_path }}/{{ ocp_version }}/oc"
+    link: /usr/local/bin/oc
+    state: present
+
+- name: Define the alternatives for kubectl
+  community.general.alternatives:
+    name: kubectl
+    path: "{{ openshift_binary_path }}/{{ ocp_version }}/kubectl"
+    link: /usr/local/bin/kubectl
+    state: present
