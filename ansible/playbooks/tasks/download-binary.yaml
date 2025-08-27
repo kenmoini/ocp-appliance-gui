@@ -15,6 +15,11 @@
     path: "{{ openshift_binary_path }}/{{ ocp_version }}/oc"
   register: oc_binary_check
 
+- name: Check for the version of the oc-mirror cli
+  ansible.builtin.stat:
+    path: "{{ openshift_binary_path }}/{{ ocp_version }}/oc-mirror"
+  register: oc_mirror_check
+
 - name: Download OpenShift Binary if it is missing
   when: not binary_check.stat.exists
   block:
@@ -73,6 +78,31 @@
         path: "{{ openshift_binary_path }}/{{ ocp_version }}/kubectl"
         mode: '0755'
 
+- name: Download oc-mirror if it is missing
+  when: not oc_mirror_check.stat.exists
+  block:
+    - name: Download oc-mirror binary
+      ansible.builtin.get_url:
+        url: "{{ openshift_binary_remote_url }}/{{ ocp_version }}/{{ oc_mirror_filename }}"
+        dest: "{{ openshift_binary_path }}/{{ ocp_version }}/oc-mirror.tar.gz"
+        mode: '0755'
+
+    - name: Extract oc-mirror binary
+      ansible.builtin.unarchive:
+        src: "{{ openshift_binary_path }}/{{ ocp_version }}/oc-mirror.tar.gz"
+        dest: "{{ openshift_binary_path }}/{{ ocp_version }}"
+        remote_src: yes
+
+    - name: Remove the downloaded tar file
+      ansible.builtin.file:
+        path: "{{ openshift_binary_path }}/{{ ocp_version }}/oc-mirror.tar.gz"
+        state: absent
+
+    - name: Ensure oc-mirror is executable
+      ansible.builtin.file:
+        path: "{{ openshift_binary_path }}/{{ ocp_version }}/oc-mirror"
+        mode: '0755'
+
 - name: Define the alternatives for openshift-install
   community.general.alternatives:
     name: openshift-install
@@ -92,4 +122,11 @@
     name: kubectl
     path: "{{ openshift_binary_path }}/{{ ocp_version }}/kubectl"
     link: /usr/local/bin/kubectl
+    state: "{{ 'selected' if default_version == ocp_version else 'present' }}"
+
+- name: Define the alternatives for oc-mirror
+  community.general.alternatives:
+    name: oc-mirror
+    path: "{{ openshift_binary_path }}/{{ ocp_version }}/oc-mirror"
+    link: /usr/local/bin/oc-mirror
     state: "{{ 'selected' if default_version == ocp_version else 'present' }}"
