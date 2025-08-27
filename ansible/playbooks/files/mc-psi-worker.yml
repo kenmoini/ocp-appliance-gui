@@ -8,3 +8,5 @@ metadata:
 spec:
   kernelArguments:
     - psi=1
+    - schedstats=enable
+    - sched.schedstats=enable
