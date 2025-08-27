@@ -31,6 +31,10 @@
     additionalImages:
       - registry.redhat.io/rhel9/support-tools:latest
 
+    extra_file_manifests:
+      - mc-psi-master.yml
+      - mc-psi-worker.yml
+
     #disconnected_mirrors:
     #  - source: "quay.io/openshift-release-dev/ocp-release"
     #    target: "harbor.hpe-openshift.lab/quay-io/openshift-release-dev/ocp-release"
@@ -175,6 +179,21 @@
       ansible.builtin.file:
         state: directory
         path: "{{ appliance_asset_path }}"
+
+    - name: Create working directories - Appliance Manifest Path
+      when: extra_file_manifests is defined
+      ansible.builtin.file:
+        state: directory
+        path: "{{ appliance_asset_path }}/openshift/crs"
+
+    - name: Create working directories - Appliance Manifest Path
+      when: extra_file_manifests is defined
+      ansible.builtin.copy:
+        src: "files/{{ m_item }}"
+        dest: "{{ appliance_asset_path }}/openshift/crs/{{ m_item }}"
+      loop: "{{ extra_manifests }}"
+      loop_control:
+        loop_var: m_item
 
     - name: Create Configuration
       ansible.builtin.include_tasks:
