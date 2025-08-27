@@ -135,7 +135,7 @@
 
     - name: Install needed packages
       ansible.builtin.dnf:
-        name: ["podman","cockpit","cockpit-podman"]
+        name: ["podman","cockpit","cockpit-podman","xorriso","syslinux","skopeo","buildah","rsync"]
         state: latest
 
     - name: Start the services
