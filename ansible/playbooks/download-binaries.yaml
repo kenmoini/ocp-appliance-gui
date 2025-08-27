@@ -3,11 +3,12 @@
   hosts: all
 
   vars:
-    openshift_binary_path: /opt/bin/openshift-install
+    openshift_binary_path: /opt/bin/openshift
     openshift_binary_versions:
       - stable-4.18
       - stable-4.19
     openshift_binary_filename: openshift-install-rhel9-amd64.tar.gz
+    openshift_cli_filename: openshift-client-linux.tar.gz
     openshift_binary_remote_url: https://mirror.openshift.com/pub/openshift-v4/clients/ocp
 
   tasks:
