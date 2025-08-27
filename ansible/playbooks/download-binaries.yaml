@@ -10,6 +10,7 @@
     default_version: stable-4.19
     openshift_binary_filename: openshift-install-rhel9-amd64.tar.gz
     openshift_cli_filename: openshift-client-linux.tar.gz
+    oc_mirror_filename: oc-mirror.tar.gz
     openshift_binary_remote_url: https://mirror.openshift.com/pub/openshift-v4/clients/ocp
 
   tasks:
