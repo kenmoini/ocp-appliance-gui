@@ -178,6 +178,7 @@
         file: tasks/build-appliance-image.yaml
 
     - name: Convert raw to ISO
+      when: target_boot_device is defined
       ansible.builtin.include_tasks:
         file: tasks/convert-raw-to-iso.yaml
 
