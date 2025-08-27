@@ -17,7 +17,8 @@
 
     appliance_graph_path: /opt/var/lib/containers
     appliance_base_path: /opt/appliance-builds
-    persist_podman_local_graph: true
+    podman_persist_local_graph: true
+    podman_pass_system_roots: true
 
     enableDefaultSources: false
     useDefaultSourceNames: false
