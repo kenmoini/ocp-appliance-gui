@@ -130,6 +130,17 @@
     #  ansible.builtin.set_fact:
     #    pullSecret: "{{ pull_secret_content.stdout | trim }}"
 
+    - name: Install needed packages
+      ansible.builtin.dnf:
+        name: ["podman","cockpit","cockpit-podman"]
+        state: latest
+
+    - name: Start the services
+      ansible.builtin.service:
+        name: ["podman.socket", "cockpit.socket"]
+        enabled: true
+        state: started
+
     - name: Create working directories - Container Graph
       ansible.builtin.file:
         state: directory
