@@ -10,6 +10,11 @@
     path: "{{ openshift_binary_path }}/{{ ocp_version }}/openshift-install"
   register: binary_check
 
+- name: Check for the version of the oc cli
+  ansible.builtin.stat:
+    path: "{{ openshift_binary_path }}/{{ ocp_version }}/oc"
+  register: oc_binary_check
+
 - name: Download OpenShift Binary if it is missing
   when: not binary_check.stat.exists
   block:
@@ -36,4 +41,34 @@
     - name: Ensure the OpenShift binary is executable
       ansible.builtin.file:
         path: "{{ openshift_binary_path }}/{{ ocp_version }}/openshift-install"
+        mode: '0755'
+
+- name: Download OpenShift CLI if it is missing
+  when: not oc_binary_check.stat.exists
+  block:
+    - name: Download OpenShift Installer binary
+      ansible.builtin.get_url:
+        url: "{{ openshift_binary_remote_url }}/{{ ocp_version }}/{{ openshift_cli_filename }}"
+        dest: "{{ openshift_binary_path }}/{{ ocp_version }}/oc.tar.gz"
+        mode: '0755'
+
+    - name: Extract OpenShift Installer binary
+      ansible.builtin.unarchive:
+        src: "{{ openshift_binary_path }}/{{ ocp_version }}/oc.tar.gz"
+        dest: "{{ openshift_binary_path }}/{{ ocp_version }}"
+        remote_src: yes
+
+    - name: Remove the downloaded tar file
+      ansible.builtin.file:
+        path: "{{ openshift_binary_path }}/{{ ocp_version }}/oc.tar.gz"
+        state: absent
+
+    - name: Ensure the OpenShift CLI is executable
+      ansible.builtin.file:
+        path: "{{ openshift_binary_path }}/{{ ocp_version }}/oc"
+        mode: '0755'
+
+    - name: Ensure the kubectl is executable
+      ansible.builtin.file:
+        path: "{{ openshift_binary_path }}/{{ ocp_version }}/kubectl"
         mode: '0755'
